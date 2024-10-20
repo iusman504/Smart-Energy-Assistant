@@ -91,7 +91,6 @@ class _HomeState extends State<Home> {
   }
 
   void _checkVoltage() {
-    print('uuuuuuuuuuuuuuuuuuuu ${TConstant.voltage}');
     if (TConstant.voltage >= 250) {
       notificationServices.showNotification(
         title: 'High Voltage Alert',
