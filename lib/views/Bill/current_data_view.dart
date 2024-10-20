@@ -80,7 +80,7 @@ class _CurrentDataViewState extends State<CurrentDataView>
       //     "Following is the image of a electric meter with units written on its display. Analyze the following image and provide the units_value written on its display. Note that don't provide me any additional text just provide me units_value without adding the unit ie kwh";
 
       const promptValue =
-          "Analyze the following image of an electric meter and provide the units_value displayed on it. Include the decimal point in the correct place so that the value is same as on meter display and do not include the unit (kWh). Only respond with the units_value exactly as it appears on the display.";
+          "Analyze the following image of an electric meter and provide the units_value displayed on it. do not include the unit (kWh). Only respond with the units_value exactly as it appears on the display.";
 
 
 
@@ -107,7 +107,10 @@ class _CurrentDataViewState extends State<CurrentDataView>
           var result = jsonDecode(response.body);
           myText = result['candidates'][0]['content']['parts'][0]['text'];
           if (myText != ' 9999' && myText != ' 9949' && myText != ' 9947') {
-            cResponseController.text = myText;
+            double formattedValue = int.parse(myText) / 100;
+
+            // Format to two decimal places
+            cResponseController.text = formattedValue.toStringAsFixed(2);
             _updateDateTimeFields();
           } else {
             showSnackBar('Select Another Image');

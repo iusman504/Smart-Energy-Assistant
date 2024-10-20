@@ -43,7 +43,7 @@ class _PreviousDataViewState extends State<PreviousDataView>
   final PageController _pageController = PageController();
 
   final apiUrl =
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=AIzaSyDCv1kjUsY-A347ZjZiUh3QNJTzd6A_XH8';
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyDCv1kjUsY-A347ZjZiUh3QNJTzd6A_XH8';
 
   final header = {
     'Content-Type': 'application/json',
@@ -61,103 +61,181 @@ class _PreviousDataViewState extends State<PreviousDataView>
       pResponseController.clear();
     });
 
-    final gemini = Gemini.instance;
+    try {
+      List<int> imageBytes = File(image.path).readAsBytesSync();
+      String base64File = base64.encode(imageBytes);
 
-    final file = File(image.path);
-    gemini.textAndImage(
-        text: "Following is the image of a electric meter with units written on its display. Analyze the following image and provide the units_value written on its display. Note that don't provide me any additional text just provide me units_value without adding the unit ie kwh", /// text
-        images: [file.readAsBytesSync()] /// list of images
-    )
-        .then((value)  {
-          print('xxxxxxxxxxxxxxxxxxxxxxxxxxx');
-      print(value?.content?.parts?.last.text ?? '');
-      myText = value?.content?.parts?.last.text ?? '';
-          pResponseController.text = myText;
-      setState(() {
-        scanning = false;
+      // Hard-coded prompt
+      // const promptValue =
+      //     "Following is the image of a electric meter with units written on its display. Analyze the following image and provide the units_value written on its display. Note that don't provide me any additional text just provide me units_value without adding the unit ie kwh";
+
+      const promptValue =
+          "Analyze the following image of an electric meter and provide the units_value displayed on it. do not include the unit (kWh). Only respond with the units_value exactly as it appears on the display.";
+
+
+
+      final data = {
+        "contents": [
+          {
+            "parts": [
+              {"text": promptValue},
+              {
+                "inlineData": {
+                  "mimeType": "image/jpeg",
+                  "data": base64File,
+                }
+              }
+            ]
+          }
+        ],
+      };
+
+      await http
+          .post(Uri.parse(apiUrl), headers: header, body: jsonEncode(data))
+          .then((response) {
+        if (response.statusCode == 200) {
+          var result = jsonDecode(response.body);
+          myText = result['candidates'][0]['content']['parts'][0]['text'];
+          if (myText != ' 9999' && myText != ' 9949' && myText != ' 9947') {
+            double formattedValue = int.parse(myText) / 100;
+
+            // Format to two decimal places
+            pResponseController.text = formattedValue.toStringAsFixed(2);
+          } else {
+            showSnackBar('Select Another Image');
+            // responseController.text = 'Select Another Image';
+          }
+          // myText = result['candidates'][0]['content']['parts'][0]['text'];
+          // responseController.text =
+          //     myText; // Set the response text in the controller
+          debugPrint(response.body);
+        } else {
+          myText = 'Response status : ${response.statusCode}';
+          pResponseController.text =
+              myText; // Set the error status in the controller
+        }
+      }).catchError((error) {
+        debugPrint('Error occurred $error');
+        showSnackBar('Check Your Internet Connection');
+        // responseController.text = 'Check Your Internet Connection';
+        // responseController.text = 'Error occurred: $error';// Set the error message in the controller
       });
-    })
-        .catchError((e){
-          print('eeeeeeeeeeeeeeeeeeeeeee');
-    print('textAndImageInput$e' );
-      setState(() {
-        scanning = false;
-      });
+    } catch (e) {
+      debugPrint('Error occurred: Try Again');
+      showSnackBar('Error occurred: Try Again');
+      // responseController.text =
+      //     'Error occurred $e'; // Set the error message in the controller
+    }
+
+    setState(() {
+      scanning = false;
     });
-
-    // try {
-    //   List<int> imageBytes = File(image.path).readAsBytesSync();
-    //   String base64File = base64.encode(imageBytes);
-    //
-    //   // Hard-coded prompt
-    //   const promptValue =
-    //       "Following is the image of a electric meter with units written on its display. Analyze the following image and provide the units_value written on its display. Note that don't provide me any additional text just provide me units_value without adding the unit ie kwh";
-    //
-    //   final data = {
-    //     "contents": [
-    //       {
-    //         "parts": [
-    //           {"text": promptValue},
-    //           {
-    //             "inlineData": {
-    //               "mimeType": "image/jpeg",
-    //               "data": base64File,
-    //             }
-    //           }
-    //         ]
-    //       }
-    //     ],
-    //   };
-    //
-    //   await http
-    //       .post(Uri.parse(apiUrl), headers: header, body: jsonEncode(data))
-    //       .then((response) {
-    //     if (response.statusCode == 200) {
-    //       var result = jsonDecode(response.body);
-    //
-    //
-    //       myText = result['candidates'][0]['content']['parts'][0]['text'];
-    //       print('yesnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
-    //       print(myText);
-    //       if (myText != ' 9999' && myText != ' 9949' && myText != ' 9947') {
-    //         pResponseController.text = myText;
-    //       } else {
-    //         showSnackBar('Select Another Image');
-    //         // responseController.text = 'Select Another Image';
-    //       }
-    //       // myText = result['candidates'][0]['content']['parts'][0]['text'];
-    //       // responseController.text =
-    //       //     myText; // Set the response text in the controller
-    //       debugPrint(response.body);
-    //     } else {
-    //
-    //       print('sssssssssssssssssssssssssssssssssss');
-    //       showSnackBar('Please Enter Units Manually');
-    //       // myText = 'Response status : ${response.statusCode}';
-    //       // pResponseController.text =
-    //       //     myText; // Set the error status in the controller
-    //     }
-    //   }).catchError((error) {
-    //     print('yesnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
-    //     print(error);
-    //     debugPrint('Error occurred $error');
-    //     showSnackBar('Check Your Internet Connection');
-    //     // responseController.text = 'Check Your Internet Connection';
-    //     // responseController.text = 'Error occurred: $error';// Set the error message in the controller
-    //   });
-    // } catch (e) {
-    //
-    //   print('sssssssssssssssssssssssssssssssssss');
-    //   debugPrint('Error occurred: Try Again');
-    //   showSnackBar('Error occurred: Try Again');
-    //   // responseController.text =
-    //   //     'Error occurred $e'; // Set the error message in the controller
-    // }
-    //
-    // setState(() {
-    //   scanning = false;
-    // });
   }
+
+  // getData(image) async {
+  //   setState(() {
+  //     scanning = true;
+  //     myText = '';
+  //     pResponseController.clear();
+  //   });
+  //
+  //   final gemini = Gemini.instance;
+  //
+  //   final file = File(image.path);
+  //   gemini.textAndImage(
+  //       text: "Following is the image of a electric meter with units written on its display. Analyze the following image and provide the units_value written on its display. Note that don't provide me any additional text just provide me units_value without adding the unit ie kwh", /// text
+  //       images: [file.readAsBytesSync()] /// list of images
+  //   )
+  //       .then((value)  {
+  //         print('xxxxxxxxxxxxxxxxxxxxxxxxxxx');
+  //     print(value?.content?.parts?.last.text ?? '');
+  //     myText = value?.content?.parts?.last.text ?? '';
+  //         pResponseController.text = myText;
+  //     setState(() {
+  //       scanning = false;
+  //     });
+  //   })
+  //       .catchError((e){
+  //         print('eeeeeeeeeeeeeeeeeeeeeee');
+  //   print('textAndImageInput$e' );
+  //     setState(() {
+  //       scanning = false;
+  //     });
+  //   });
+  //
+  //   // try {
+  //   //   List<int> imageBytes = File(image.path).readAsBytesSync();
+  //   //   String base64File = base64.encode(imageBytes);
+  //   //
+  //   //   // Hard-coded prompt
+  //   //   const promptValue =
+  //   //       "Following is the image of a electric meter with units written on its display. Analyze the following image and provide the units_value written on its display. Note that don't provide me any additional text just provide me units_value without adding the unit ie kwh";
+  //   //
+  //   //   final data = {
+  //   //     "contents": [
+  //   //       {
+  //   //         "parts": [
+  //   //           {"text": promptValue},
+  //   //           {
+  //   //             "inlineData": {
+  //   //               "mimeType": "image/jpeg",
+  //   //               "data": base64File,
+  //   //             }
+  //   //           }
+  //   //         ]
+  //   //       }
+  //   //     ],
+  //   //   };
+  //   //
+  //   //   await http
+  //   //       .post(Uri.parse(apiUrl), headers: header, body: jsonEncode(data))
+  //   //       .then((response) {
+  //   //     if (response.statusCode == 200) {
+  //   //       var result = jsonDecode(response.body);
+  //   //
+  //   //
+  //   //       myText = result['candidates'][0]['content']['parts'][0]['text'];
+  //   //       print('yesnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
+  //   //       print(myText);
+  //   //       if (myText != ' 9999' && myText != ' 9949' && myText != ' 9947') {
+  //   //         pResponseController.text = myText;
+  //   //       } else {
+  //   //         showSnackBar('Select Another Image');
+  //   //         // responseController.text = 'Select Another Image';
+  //   //       }
+  //   //       // myText = result['candidates'][0]['content']['parts'][0]['text'];
+  //   //       // responseController.text =
+  //   //       //     myText; // Set the response text in the controller
+  //   //       debugPrint(response.body);
+  //   //     } else {
+  //   //
+  //   //       print('sssssssssssssssssssssssssssssssssss');
+  //   //       showSnackBar('Please Enter Units Manually');
+  //   //       // myText = 'Response status : ${response.statusCode}';
+  //   //       // pResponseController.text =
+  //   //       //     myText; // Set the error status in the controller
+  //   //     }
+  //   //   }).catchError((error) {
+  //   //     print('yesnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
+  //   //     print(error);
+  //   //     debugPrint('Error occurred $error');
+  //   //     showSnackBar('Check Your Internet Connection');
+  //   //     // responseController.text = 'Check Your Internet Connection';
+  //   //     // responseController.text = 'Error occurred: $error';// Set the error message in the controller
+  //   //   });
+  //   // } catch (e) {
+  //   //
+  //   //   print('sssssssssssssssssssssssssssssssssss');
+  //   //   debugPrint('Error occurred: Try Again');
+  //   //   showSnackBar('Error occurred: Try Again');
+  //   //   // responseController.text =
+  //   //   //     'Error occurred $e'; // Set the error message in the controller
+  //   // }
+  //   //
+  //   // setState(() {
+  //   //   scanning = false;
+  //   // });
+  // }
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
