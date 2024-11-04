@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sea/constants/colors.dart';
 import 'package:sea/constants/hide_snackbar.dart';
 import 'package:sea/firebase_options.dart';
+import 'package:sea/views/Home/home_provider.dart';
 import 'package:sea/views/login/login_provider.dart';
 import 'package:sea/views/signup/signup_provider.dart';
 import 'package:sea/views/splash_screen/splash_screen.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => HomeProvider()),
       ChangeNotifierProvider(create: (_) => SignupProvider()),
       ChangeNotifierProvider(create: (_) => LoginProvider()),
     ],

@@ -4,7 +4,7 @@ import 'package:sea/constants/hide_snackbar.dart';
 import 'package:sea/views/bill_page_view.dart';
 import 'package:sea/views/Reading/readings_view.dart';
 import 'package:sea/views/Statistics/statistics_view.dart';
-import 'Home/home_view.dart';
+import 'Home/home_screen.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -17,7 +17,7 @@ class _NavigationState extends State<Navigation> {
   int myIndex = 0;
 
   List<Widget> widgetList = [
-    const Home(),
+    const HomeScreen(),
     const Readings(),
     const BillPageView(),
     const Statistics(),
