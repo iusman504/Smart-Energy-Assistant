@@ -1,3 +1,64 @@
+import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+class LineChart extends StatefulWidget {
+  const LineChart({super.key});
+
+  @override
+  State<LineChart> createState() => _LineChartState();
+}
+
+List chartData = [
+  [2005, 24 , 25],
+  [2006, 30 , 60],
+  [2007, 66 , 52],
+  [2008, 40 , 75],
+  [2009, 23 , 67],
+  [2010, 66 , 81],
+  [2011, 88 , 88],
+  [2012, 50 , 25],
+  [2013, 23 , 90],
+];
+
+class _LineChartState extends State<LineChart> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SfCartesianChart(
+        series: [
+          LineSeries(
+            markerSettings: MarkerSettings(isVisible: true),
+            dataSource: chartData,
+              color: Colors.orange,
+              name: 'Voltage',
+              xValueMapper: (data, index)=>data[0],
+              yValueMapper: (data, index)=>data[1]),
+          LineSeries(
+            markerSettings: MarkerSettings(isVisible: true),
+            dataSource: chartData,
+              color: Colors.green,
+              name: 'Current',
+              xValueMapper: (data, index)=>data[0],
+              yValueMapper: (data, index)=>data[2]),
+        ],
+        legend: Legend(isVisible: true),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 // import 'dart:convert';
 // import 'dart:io';
 // import 'package:http/http.dart' as http;

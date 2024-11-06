@@ -70,6 +70,7 @@ dependencies:
   fl_chart: ^0.68.0
   shared_preferences: ^2.2.3
   flutter_gemini: ^2.0.5
+  syncfusion_flutter_charts: ^26.2.14
 
 dev_dependencies:
   flutter_test:
