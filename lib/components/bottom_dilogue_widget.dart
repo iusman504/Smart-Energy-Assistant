@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sea/constants/colors.dart';
+import 'package:sea/views/Bill/previous_provider.dart';
 
-void showImageSourceDialog(BuildContext context, {VoidCallback? onCameraTap, VoidCallback? onGalleryTap}) {
+void showImageSourceDialog(BuildContext context, PreviousProvider previousProvider) {
   showModalBottomSheet(
     context: context,
     builder: (context) {
@@ -14,7 +16,12 @@ void showImageSourceDialog(BuildContext context, {VoidCallback? onCameraTap, Voi
               children: [
                 GestureDetector(
                   onTap: () {
-                    onCameraTap?.call();
+                    previousProvider.getImage(ImageSource.camera).then((_){
+                      if(previousProvider.pickedImage!= null){
+                        previousProvider.cropImage(previousProvider.pickedImage!.path, context);
+                      }
+                    });
+                 //   onCameraTap?.call();
                     Navigator.of(context).pop(); // Hide bottom sheet after camera tap
                   },
                   child: Card(
@@ -32,8 +39,13 @@ void showImageSourceDialog(BuildContext context, {VoidCallback? onCameraTap, Voi
                 const SizedBox(height: 10,),
                 GestureDetector(
                   onTap: () {
-                    onGalleryTap?.call();
-                    Navigator.of(context).pop(); // Hide bottom sheet after gallery tap
+                    previousProvider.getImage(ImageSource.gallery).then((_){
+                      if(previousProvider.pickedImage!= null){
+                        previousProvider.cropImage(previousProvider.pickedImage!.path, context);
+                      }
+                    });
+                    // onGalleryTap?.call();
+                    Navigator.of(context).pop();
                   },
                   child: Card(
                     child: Container(

@@ -279,39 +279,39 @@ class _CurrentDataViewState extends State<CurrentDataView>
                     child: GestureDetector(
                       onTap: () {
                         // if (pickedImage == null)
-                        showImageSourceDialog(
-                          context,
-                          onCameraTap: () {
-                            log('Camera');
-                            getImage(ImageSource.camera).then((value) {
-                              if (value != null) {
-                                imageCropperView(value.path, context)
-                                    .then((croppedFile) {
-                                  if (croppedFile != null) {
-                                    setState(() {
-                                      pickedImage = croppedFile as XFile?;
-                                    });
-                                  }
-                                });
-                              }
-                            });
-                          },
-                          onGalleryTap: () {
-                            log('Gallery');
-                            getImage(ImageSource.gallery).then((value) {
-                              if (value != null) {
-                                imageCropperView(value.path, context)
-                                    .then((croppedFile) {
-                                  if (croppedFile != null) {
-                                    setState(() {
-                                      pickedImage = croppedFile as XFile?;
-                                    });
-                                  }
-                                });
-                              }
-                            });
-                          },
-                        );
+                        // showImageSourceDialog(
+                        //   context,
+                        //   onCameraTap: () {
+                        //     log('Camera');
+                        //     getImage(ImageSource.camera).then((value) {
+                        //       if (value != null) {
+                        //         imageCropperView(value.path, context)
+                        //             .then((croppedFile) {
+                        //           if (croppedFile != null) {
+                        //             setState(() {
+                        //               pickedImage = croppedFile as XFile?;
+                        //             });
+                        //           }
+                        //         });
+                        //       }
+                        //     });
+                        //   },
+                        //   onGalleryTap: () {
+                        //     log('Gallery');
+                        //     getImage(ImageSource.gallery).then((value) {
+                        //       if (value != null) {
+                        //         imageCropperView(value.path, context)
+                        //             .then((croppedFile) {
+                        //           if (croppedFile != null) {
+                        //             setState(() {
+                        //               pickedImage = croppedFile as XFile?;
+                        //             });
+                        //           }
+                        //         });
+                        //       }
+                        //     });
+                        //   },
+                        // );
                       },
                       child: Container(
                         alignment: Alignment.center,

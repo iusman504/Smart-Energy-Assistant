@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../../components/image_cropper.dart';
 import '../../utils/constant.dart';
 
 class PreviousProvider with ChangeNotifier{
@@ -20,7 +21,6 @@ class PreviousProvider with ChangeNotifier{
 
   final ImagePicker _imagePicker = ImagePicker();
 
-  final PageController _pageController = PageController();
 
   final apiUrl =
       'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyDCv1kjUsY-A347ZjZiUh3QNJTzd6A_XH8';
@@ -29,12 +29,24 @@ class PreviousProvider with ChangeNotifier{
     'Content-Type': 'application/json',
   };
 
-  Future<XFile?> getImage(ImageSource source) async {
+  Future<void> getImage(ImageSource source) async {
     XFile? result = await _imagePicker.pickImage(source: source);
-    return result;
+    //return result;
+    if(result!= null){
+      pickedImage = result;
+      notifyListeners();
+    }
   }
 
-  getData(image) async {
+  Future<void> cropImage(String path, BuildContext context) async {
+    XFile? croppedFile = await imageCropperView(path, context); // Your cropping function
+    if (croppedFile != null) {
+      pickedImage = croppedFile;
+      notifyListeners();
+    }
+  }
+
+  getData(image, BuildContext context) async {
       scanning = true;
       myText = '';
       pResponseController.clear();
@@ -80,7 +92,7 @@ class PreviousProvider with ChangeNotifier{
 
             pResponseController.text = formattedValue.toStringAsFixed(2);
           } else {
-            // showSnackBar('Select Another Image');
+             showSnackBar('Select Another Image', context);
 
           }
 
@@ -91,11 +103,11 @@ class PreviousProvider with ChangeNotifier{
         }
       }).catchError((error) {
         debugPrint('Error occurred $error');
-        // showSnackBar('Check Your Internet Connection');
+         showSnackBar('Check Your Internet Connection', context);
       });
     } catch (e) {
       debugPrint('Error occurred: Try Again');
-      // showSnackBar('Error occurred: Try Again');
+      showSnackBar('Error occurred: Try Again', context);
     }
 
 
@@ -146,25 +158,25 @@ class PreviousProvider with ChangeNotifier{
     }
   }
 
-  void validateAndNextPage() {
+  void validateAndNextPage(BuildContext context, PageController pageController) {
     if (pResponseController.text.isEmpty) {
-     // showSnackBar('Please Enter Previous Units');
+      showSnackBar('Please Enter Previous Units', context);
     } else if (dateController.text.isEmpty) {
-   //   showSnackBar('Please Select Reading Date');
+     showSnackBar('Please Select Reading Date', context);
     } else if (timeController.text.isEmpty) {
-    //  showSnackBar('Please Select Reading Time');
+    showSnackBar('Please Select Reading Time', context);
     } else {
       TConstant.prevUnits = pResponseController.text;
-      _nextPage();
+      _nextPage(pageController);
     }
   }
 
 
-  void _nextPage() {
+  void _nextPage(PageController pageController) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_pageController.page != null) {
-        _pageController.animateToPage(
-          _pageController.page!.toInt() + 1,
+      if (pageController.page != null) {
+        pageController.animateToPage(
+          pageController.page!.toInt() + 1,
           duration: const Duration(milliseconds: 01),
           curve: Curves.easeInOut,
         );
