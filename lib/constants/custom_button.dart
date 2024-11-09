@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
  final String btnText;
  final double btnHeight;
  final double btnWidth;
- final void Function() onPress;
+ final  void Function() onPress;
 
   const CustomButton({super.key, required this.btnText , required this.btnHeight, required this.btnWidth, required this.onPress });
 

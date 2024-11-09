@@ -15,13 +15,28 @@ class PreviousProvider with ChangeNotifier{
 
   final TextEditingController pResponseController = TextEditingController();
 
+  final TextEditingController cResponseController = TextEditingController();
+
   final TextEditingController dateController = TextEditingController();
 
   final TextEditingController timeController = TextEditingController();
 
   final ImagePicker _imagePicker = ImagePicker();
 
+  PreviousProvider() {
+    cResponseController.addListener(_onCResponseChanged);
+  }
 
+  void _onCResponseChanged() {
+    if (cResponseController.text.isNotEmpty) {
+      dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
+      timeController.text = DateFormat('HH:mm a').format(DateTime.now());
+    } else {
+      dateController.clear();
+      timeController.clear();
+    }
+    notifyListeners();
+  }
   final apiUrl =
       'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyDCv1kjUsY-A347ZjZiUh3QNJTzd6A_XH8';
 
@@ -31,7 +46,7 @@ class PreviousProvider with ChangeNotifier{
 
   Future<void> getImage(ImageSource source) async {
     XFile? result = await _imagePicker.pickImage(source: source);
-    //return result;
+
     if(result!= null){
       pickedImage = result;
       notifyListeners();
@@ -46,24 +61,29 @@ class PreviousProvider with ChangeNotifier{
     }
   }
 
-  getData(image, BuildContext context) async {
-      scanning = true;
-      myText = '';
-      pResponseController.clear();
-  notifyListeners();
+  void clearPreviousImage() {
+    pickedImage = null;
+    pResponseController.clear();
+    notifyListeners();
+  }
+
+  void clearCurrentImage() {
+    pickedImage = null;
+    cResponseController.clear();
+    notifyListeners();
+  }
+
+  Future<void> analyzeMeterImage( image, TextEditingController responseController, BuildContext context) async {
+    scanning = true;
+    myText = '';
+    responseController.clear();
+    notifyListeners();
 
     try {
       List<int> imageBytes = File(image.path).readAsBytesSync();
       String base64File = base64.encode(imageBytes);
 
-      // Hard-coded prompt
-      // const promptValue =
-      //     "Following is the image of a electric meter with units written on its display. Analyze the following image and provide the units_value written on its display. Note that don't provide me any additional text just provide me units_value without adding the unit ie kwh";
-
-      const promptValue =
-          "Analyze the following image of an electric meter and provide the units_value displayed on it. do not include the unit (kWh). Only respond with the units_value exactly as it appears on the display.";
-
-
+      const promptValue = "Analyze the following image of an electric meter and provide the units_value displayed on it. Do not include the unit (kWh). Only respond with the units_value exactly as it appears on the display.";
 
       final data = {
         "contents": [
@@ -81,38 +101,38 @@ class PreviousProvider with ChangeNotifier{
         ],
       };
 
-      await http
-          .post(Uri.parse(apiUrl), headers: header, body: jsonEncode(data))
-          .then((response) {
-        if (response.statusCode == 200) {
-          var result = jsonDecode(response.body);
-          myText = result['candidates'][0]['content']['parts'][0]['text'];
-          if (myText != ' 9999' && myText != ' 9949' && myText != ' 9947') {
-            double formattedValue = int.parse(myText) / 100;
+      final response = await http.post(Uri.parse(apiUrl), headers: header, body: jsonEncode(data));
 
-            pResponseController.text = formattedValue.toStringAsFixed(2);
-          } else {
-             showSnackBar('Select Another Image', context);
+      if (response.statusCode == 200) {
+        var result = jsonDecode(response.body);
+        myText = result['candidates'][0]['content']['parts'][0]['text'];
 
-          }
-
-          debugPrint(response.body);
+        if (myText != '9999' && myText != '9949' && myText != '9947') {
+          double formattedValue = int.parse(myText) / 100;
+          responseController.text = formattedValue.toStringAsFixed(2);
         } else {
-          myText = 'Response status : ${response.statusCode}';
-          pResponseController.text = myText;
+          showSnackBar('Select Another Image', context);
         }
-      }).catchError((error) {
-        debugPrint('Error occurred $error');
-         showSnackBar('Check Your Internet Connection', context);
-      });
-    } catch (e) {
-      debugPrint('Error occurred: Try Again');
-      showSnackBar('Error occurred: Try Again', context);
-    }
-
-
+      } else {
+        myText = 'Response status: ${response.statusCode}';
+        responseController.text = myText;
+      }
+      debugPrint(response.body);
+    } catch (error) {
+      debugPrint('Error occurred: $error');
+      showSnackBar('Check Your Internet Connection', context);
+    } finally {
       scanning = false;
-   notifyListeners();
+      notifyListeners();
+    }
+  }
+
+  Future<void> getPreviousData(image, BuildContext context) async {
+    await analyzeMeterImage(image, pResponseController, context);
+  }
+
+  Future<void> getCurrentData(image, BuildContext context) async {
+    await analyzeMeterImage(image, cResponseController, context);
   }
 
   void showSnackBar(String message, BuildContext context) {
@@ -130,12 +150,10 @@ class PreviousProvider with ChangeNotifier{
     );
   }
 
-  Future<void> selectDate(BuildContext context) async {
-    DateTime now = DateTime.now();
-    DateTime oneMonthBefore = DateTime(now.year, now.month - 1, now.day);
+  Future<void> selectDate(BuildContext context, {required DateTime initialDate}) async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: oneMonthBefore,
+      initialDate: initialDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2030),
     );
@@ -143,8 +161,17 @@ class PreviousProvider with ChangeNotifier{
     if (picked != null) {
       dateController.text = DateFormat('dd/MM/yyyy').format(picked);
       notifyListeners();
-      // _dateController.text = picked.toString().split(" ")[0];
     }
+  }
+
+  Future<void> selectPreviousDate(BuildContext context) async {
+    DateTime now = DateTime.now();
+    DateTime oneMonthBefore = DateTime(now.year, now.month - 1, now.day);
+    await selectDate(context, initialDate: oneMonthBefore);
+  }
+
+  Future<void> selectCurrentDate(BuildContext context) async {
+    await selectDate(context, initialDate: DateTime.now());
   }
 
   Future<void> selectTime(BuildContext context) async {
@@ -153,24 +180,27 @@ class PreviousProvider with ChangeNotifier{
       initialTime: TimeOfDay.now(),
     );
     if (picked != null) {
-        timeController.text = picked.format(context);
-     notifyListeners();
+      final now = DateTime.now();
+      final formattedTime = DateFormat('hh:mm a').format(
+        DateTime(now.year, now.month, now.day, picked.hour, picked.minute),
+      );
+
+      timeController.text = formattedTime;
+      notifyListeners();
     }
   }
 
-  void validateAndNextPage(BuildContext context, PageController pageController) {
-    if (pResponseController.text.isEmpty) {
-      showSnackBar('Please Enter Previous Units', context);
-    } else if (dateController.text.isEmpty) {
-     showSnackBar('Please Select Reading Date', context);
-    } else if (timeController.text.isEmpty) {
-    showSnackBar('Please Select Reading Time', context);
-    } else {
-      TConstant.prevUnits = pResponseController.text;
-      _nextPage(pageController);
-    }
+  void previousPage(PageController pageController) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (pageController.page != null) {
+        pageController.animateToPage(
+          pageController.page!.toInt() - 1,
+          duration: const Duration(milliseconds: 01),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
-
 
   void _nextPage(PageController pageController) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -183,4 +213,45 @@ class PreviousProvider with ChangeNotifier{
       }
     });
   }
+
+  void validateAndProceed(BuildContext context, PageController pageController, bool isPrevious) {
+    if (isPrevious && pResponseController.text.isEmpty) {
+      showSnackBar('Please Enter Previous Units', context);
+    } else if (!isPrevious && cResponseController.text.isEmpty) {
+      showSnackBar('Please Enter Current Units', context);
+    } else if (dateController.text.isEmpty) {
+      showSnackBar('Please Select Reading Date', context);
+    } else if (timeController.text.isEmpty) {
+      showSnackBar('Please Select Reading Time', context);
+    } else {
+      if (isPrevious) {
+        TConstant.prevUnits = pResponseController.text;
+        _nextPage(pageController);
+      } else {
+        TConstant.currUnits = cResponseController.text;
+        double current = double.parse(TConstant.currUnits);
+        double pre = double.parse(TConstant.prevUnits);
+        if (current > pre) {
+          TConstant.totalUnits = current - pre;
+          _nextPage(pageController);
+        } else {
+          showSnackBar('Current > Previous', context);
+        }
+      }
+    }
+  }
+
+  void updateDateTimeFields(BuildContext context) {
+    if (cResponseController.text.isNotEmpty) {
+        dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
+        timeController.text = TimeOfDay.now().format(context);
+        print("Date and time set: ${dateController.text}, ${timeController.text}");
+     notifyListeners();
+    } else {
+        dateController.clear();
+        timeController.clear();
+   notifyListeners();
+    }
+  }
+
 }

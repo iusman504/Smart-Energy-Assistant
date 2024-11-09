@@ -76,10 +76,7 @@ class _PreviousDataViewState extends State<PreviousDataView>
                                           right: 5,
                                           child: GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                vm.pickedImage = null;
-                                                vm.pResponseController.clear();
-                                              });
+                                              vm.clearPreviousImage();
                                             },
                                             child: const Icon(
                                               Icons.close,
@@ -110,7 +107,7 @@ class _PreviousDataViewState extends State<PreviousDataView>
                           onPress: vm.pickedImage != null
                               ? () {
                                   if (vm.pickedImage != null) {
-                                    vm.getData(vm.pickedImage, context);
+                                    vm.getPreviousData(vm.pickedImage, context);
                                   }
                                 }
                               : () {
@@ -183,7 +180,7 @@ class _PreviousDataViewState extends State<PreviousDataView>
                                           hintText: 'Select Reading Date',
                                           read: true,
                                           onPress: () {
-                                            vm.selectDate(context);
+                                            vm.selectPreviousDate(context);
                                           },
                                         ),
                                       ],
@@ -231,8 +228,8 @@ class _PreviousDataViewState extends State<PreviousDataView>
                                       btnHeight: screenHeight(context) * 0.053,
                                       btnWidth: screenWidth(context) * 0.42,
                                       onPress: () {
-                                        vm.validateAndNextPage(
-                                            context, widget.pageController);
+                                        vm.validateAndProceed(
+                                            context, widget.pageController, true);
                                       },
                                     ),
                                   ),
