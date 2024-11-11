@@ -9,7 +9,7 @@ import 'package:sea/constants/custom_button.dart';
 import 'package:sea/constants/custom_textfield.dart';
 import 'package:sea/constants/divider.dart';
 import 'package:sea/utils/screen_size.dart';
-import 'package:sea/views/Bill/previous_provider.dart';
+import 'package:sea/views/Bill/data_provider.dart';
 
 class PreviousDataView extends StatefulWidget {
   final PageController pageController;
@@ -28,8 +28,8 @@ class _PreviousDataViewState extends State<PreviousDataView>
   Widget build(BuildContext context) {
     super.build(context);
     return ChangeNotifierProvider(
-      create: (_) => PreviousProvider(),
-      child: Consumer<PreviousProvider>(
+      create: (_) => DataProvider(),
+      child: Consumer<DataProvider>(
         builder: (context, vm, child) {
           return Scaffold(
             appBar: const CustomAppBar(title: 'PREVIOUS DATA'),

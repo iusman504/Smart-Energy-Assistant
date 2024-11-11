@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import '../../components/image_cropper.dart';
 import '../../utils/constant.dart';
 
-class PreviousProvider with ChangeNotifier{
+class DataProvider with ChangeNotifier{
   XFile? pickedImage;
   String myText = '';
   bool scanning = false;
@@ -23,7 +23,7 @@ class PreviousProvider with ChangeNotifier{
 
   final ImagePicker _imagePicker = ImagePicker();
 
-  PreviousProvider() {
+  DataProvider() {
     cResponseController.addListener(_onCResponseChanged);
   }
 
