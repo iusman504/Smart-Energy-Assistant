@@ -12,51 +12,52 @@ class BillProvider with ChangeNotifier {
   bool get isChecked2 => _isChecked2;
   String? selectedConsumerType;
 
-  double totalUnits = 0.0;
-  double unitsPrice = 0.0;
-  double unitsP1 = 0.0;
-  double unitsP2 = 0.0;
-  double unitsP3 = 0.0;
-  double unitsP4 = 0.0;
-  double unitsUp1 = 0.0;
-  double unitsUp2 = 0.0;
-  double unitsUp3 = 0.0;
-  double unitsUp4 = 0.0;
-  double unitsUp5 = 0.0;
-  double unitsUp6 = 0.0;
-  double unitsUp7 = 0.0;
-  double unitsUp8 = 0.0;
-  double totalCost = 0.0;
-  double currentBill = 0.0;
-  double fixedCharges = 0.0;
-  double electricityDuty = 0.0;
-  double tvFee = 0.0;
-  double gst = 0.0;
-  double annualQtr = 0.0;
-  double fcSur = 0.0;
-  double totalFpa = 0.0;
+  // double totalUnits = 0.0;
+  // double unitsPrice = 0.0;
+  // double unitsP1 = 0.0;
+  // double unitsP2 = 0.0;
+  // double unitsP3 = 0.0;
+  // double unitsP4 = 0.0;
+  // double unitsUp1 = 0.0;
+  // double unitsUp2 = 0.0;
+  // double unitsUp3 = 0.0;
+  // double unitsUp4 = 0.0;
+  // double unitsUp5 = 0.0;
+  // double unitsUp6 = 0.0;
+  // double unitsUp7 = 0.0;
+  // double unitsUp8 = 0.0;
+  // double totalCost = 0.0;
+  // double currentBill = 0.0;
+  // double fixedCharges = 0.0;
+  // double electricityDuty = 0.0;
+  // double tvFee = 0.0;
+  // double gst = 0.0;
+  // double annualQtr = 0.0;
+  // double fcSur = 0.0;
+  // double totalFpa = 0.0;
 
   Future<void> testReadValue() async {
     try {
       DatabaseReference dbRef = FirebaseDatabase.instance.ref();
-      unitsP1 = await _fetchValue(dbRef.child('unitsP1'));
-      unitsP2 = await _fetchValue(dbRef.child('unitsP2'));
-      unitsP3 = await _fetchValue(dbRef.child('unitsP3'));
-      unitsP4 = await _fetchValue(dbRef.child('unitsP4'));
-      unitsUp1 = await _fetchValue(dbRef.child('unitsUp1'));
-      unitsUp2 = await _fetchValue(dbRef.child('unitsUp2'));
-      unitsUp3 = await _fetchValue(dbRef.child('unitsUp3'));
-      unitsUp4 = await _fetchValue(dbRef.child('unitsUp4'));
-      unitsUp5 = await _fetchValue(dbRef.child('unitsUp5'));
-      unitsUp6 = await _fetchValue(dbRef.child('unitsUp6'));
-      unitsUp7 = await _fetchValue(dbRef.child('unitsUp7'));
-      unitsUp8 = await _fetchValue(dbRef.child('unitsUp8'));
-      electricityDuty = await _fetchValue(dbRef.child('electricityDuty'));
-      tvFee = await _fetchValue(dbRef.child('tvFee'));
-      gst = await _fetchValue(dbRef.child('gst'));
-      annualQtr = await _fetchValue(dbRef.child('annualQtr'));
-      fcSur = await _fetchValue(dbRef.child('fcSur'));
-      totalFpa = await _fetchValue(dbRef.child('totalFpa'));
+      TConstant.unitsP1 = await _fetchValue(dbRef.child('unitsP1'));
+      TConstant.unitsP2 = await _fetchValue(dbRef.child('unitsP2'));
+      TConstant.unitsP3 = await _fetchValue(dbRef.child('unitsP3'));
+      TConstant.unitsP4 = await _fetchValue(dbRef.child('unitsP4'));
+      TConstant.unitsUp1 = await _fetchValue(dbRef.child('unitsUp1'));
+      TConstant.unitsUp2 = await _fetchValue(dbRef.child('unitsUp2'));
+      TConstant.unitsUp3 = await _fetchValue(dbRef.child('unitsUp3'));
+      TConstant.unitsUp4 = await _fetchValue(dbRef.child('unitsUp4'));
+      TConstant.unitsUp5 = await _fetchValue(dbRef.child('unitsUp5'));
+      TConstant.unitsUp6 = await _fetchValue(dbRef.child('unitsUp6'));
+      TConstant.unitsUp7 = await _fetchValue(dbRef.child('unitsUp7'));
+      TConstant.unitsUp8 = await _fetchValue(dbRef.child('unitsUp8'));
+      TConstant.electricityDuty = await _fetchValue(dbRef.child('electricityDuty'));
+      TConstant.tvFee = await _fetchValue(dbRef.child('tvFee'));
+      TConstant.gst = await _fetchValue(dbRef.child('gst'));
+      TConstant.annualQtr = await _fetchValue(dbRef.child('annualQtr'));
+      TConstant.fcSur = await _fetchValue(dbRef.child('fcSur'));
+      TConstant.totalFpa = await _fetchValue(dbRef.child('totalFpa'));
+      notifyListeners();
     } catch (e) {
       debugPrint("Error reading values from Firebase: $e");
     }
@@ -103,80 +104,87 @@ class BillProvider with ChangeNotifier {
   double _calculateTotalCost(double totalUnits) {
     if (isChecked1) {
       if (totalUnits <= 50) {
-        unitsPrice =unitsP1;
-        return totalUnits * unitsP1;
+        TConstant.unitsPrice =TConstant.unitsP1;
+        return totalUnits * TConstant.unitsP1;
       } else if (totalUnits <= 100) {
-      unitsPrice = unitsP2;
-        return totalUnits * unitsP2;
+        TConstant.unitsPrice = TConstant.unitsP2;
+        return totalUnits * TConstant.unitsP2;
       }
     } else if (isChecked2) {
       if (totalUnits <= 100) {
-        unitsPrice = unitsP3;
-        return totalUnits * unitsP3;
+        TConstant.unitsPrice = TConstant.unitsP3;
+        notifyListeners();
+        return totalUnits * TConstant.unitsP3;
       } else if (totalUnits <= 200) {
-       unitsPrice = unitsP4;
-        return totalUnits * unitsP4;
+        TConstant.unitsPrice = TConstant.unitsP4;
+        return totalUnits * TConstant.unitsP4;
       }
     } else {
       if (totalUnits <= 100) {
-        unitsPrice = unitsUp1;
-        return totalUnits * unitsUp1;
+        TConstant.unitsPrice = TConstant.unitsUp1;
+        return totalUnits * TConstant.unitsUp1;
       } else if (totalUnits <= 200) {
-       unitsPrice = unitsUp2;
-        return totalUnits * unitsUp2;
+        TConstant.unitsPrice = TConstant.unitsUp2;
+        return totalUnits * TConstant.unitsUp2;
       } else if (totalUnits <= 300) {
-        unitsPrice = unitsUp3;
-        return totalUnits * unitsUp3;
+        TConstant.unitsPrice = TConstant.unitsUp3;
+        return totalUnits * TConstant.unitsUp3;
       } else if (totalUnits <= 400) {
-       unitsPrice = unitsUp4;
-        return totalUnits * unitsUp4;
+        TConstant.unitsPrice = TConstant.unitsUp4;
+        return totalUnits * TConstant.unitsUp4;
       } else if (totalUnits <= 500) {
-        unitsPrice = unitsUp5;
-        return totalUnits * unitsUp5;
+        TConstant.unitsPrice = TConstant.unitsUp5;
+        return totalUnits * TConstant.unitsUp5;
       } else if (totalUnits <= 600) {
-        unitsPrice = unitsUp6;
-        return totalUnits * unitsUp6;
+        TConstant.unitsPrice = TConstant.unitsUp6;
+        return totalUnits * TConstant.unitsUp6;
       } else if (totalUnits <= 700) {
-        unitsPrice = unitsUp7;
-        return totalUnits * unitsUp7;
+        TConstant.unitsPrice = TConstant.unitsUp7;
+        return totalUnits * TConstant.unitsUp7;
       } else {
-        unitsPrice = unitsUp8;
-        return totalUnits * unitsUp8;
+        TConstant.unitsPrice = TConstant.unitsUp8;
+        return totalUnits * TConstant.unitsUp8;
       }
+
     }
+    notifyListeners();
     return 0.0;
   }
 
   void _calculateBill() {
   //  double totalUnits = TConstant.totalUnits;
-      totalCost = _calculateTotalCost(totalUnits);
+    TConstant.totalCost = _calculateTotalCost(TConstant.totalUnits);
     // TConstant.totalCost = totalCost;
-    double ed = (electricityDuty / 100) * totalCost;
-    double fc =  fcSur * totalUnits;
+    double ed = (TConstant.electricityDuty / 100) * TConstant.totalCost;
+    double fc =  TConstant.fcSur * TConstant.totalUnits;
 
     if (selectedConsumerType == 'Residential') {
-      currentBill = totalCost +
+      TConstant.currentBill = TConstant.totalCost +
           ed +
           // TConstant.electricityDuty +
-         tvFee +
-          gst +
-          annualQtr +
+          TConstant.tvFee +
+          TConstant.gst +
+          TConstant.annualQtr +
           fc +
           // TConstant.fcSur +
-          totalFpa;
-    } else if (selectedConsumerType == 'Mosque') {
-      tvFee = 0;
-      currentBill = totalCost +
+          TConstant.totalFpa;
+      notifyListeners();
+    }
+    else if (selectedConsumerType == 'Mosque') {
+      TConstant.tvFee = 0;
+      TConstant.currentBill = TConstant.totalCost +
           ed +
           //   TConstant.electricityDuty +
-          gst +
-         annualQtr +
+          TConstant.gst +
+          TConstant.annualQtr +
           fc +
           // TConstant.fcSur +
-          totalFpa;
+          TConstant.totalFpa;
+      notifyListeners();
     }
-    debugPrint('Total Cost: $totalCost');
-    debugPrint('Current Bill: ${currentBill}');
+
+    debugPrint('Total Cost: $TConstant.totalCost');
+    debugPrint('Current Bill: ${TConstant.currentBill}');
   }
 
   void _navigateToNextPage(PageController pageController) {
