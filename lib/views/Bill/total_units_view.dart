@@ -170,11 +170,7 @@ class _TotalUnitsState extends State<TotalUnits> {
                         btnHeight: screenHeight(context) * 0.053,
                         btnWidth: screenWidth(context) * 0.42,
                         onPress: (){
-
-                          // vm.testReadValue().then((value){
                             vm.nextPage(context, widget.pageController);
-                          // });
-
                         },
                       ),
                     ],
