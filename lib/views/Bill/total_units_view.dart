@@ -24,13 +24,6 @@ class TotalUnits extends StatefulWidget {
 
 class _TotalUnitsState extends State<TotalUnits> {
 
-  //
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Provider.of<BillProvider>(context, listen: false).testReadValue();
-  // }
 
 
 
@@ -107,15 +100,6 @@ class _TotalUnitsState extends State<TotalUnits> {
                         labelText: 'Select Consumer Type',
                         items: const ['Residential', 'Mosque'],
                         onChanged: vm.changeConsumerType
-                        //     (selectedItem) {
-                        //
-                        //   setState(() {
-                        //     _selectedConsumerType = selectedItem;
-                        //     _updateCheckboxVisibility();
-                        //     _isChecked1 = false; // Reset checkbox states
-                        //     _isChecked2 = false; // Reset checkbox states
-                        //   });
-                        // },
                       ),
                     ],
                   ),
@@ -130,16 +114,6 @@ class _TotalUnitsState extends State<TotalUnits> {
                             activeColor: Colours.kGreenColor,
                             side: const BorderSide(color: Colors.white, width: 1.5),
                             onChanged:vm.updateCheckBox1
-                            //     (bool? value) {
-                            //   if (TConstant.totalUnits > 100) {
-                            //     showSnackBar('Units Is More Than 100');
-                            //   } else {
-                            //     setState(() {
-                            //       _isChecked1 = value ?? false;
-                            //       if (_isChecked1) _isChecked2 = false;
-                            //     });
-                            //   }
-                            // },
                           ),
                           const Expanded(
                             child: Text(
@@ -176,52 +150,7 @@ class _TotalUnitsState extends State<TotalUnits> {
                         ],
                       ),
                   ],
-                  // if (_selectedConsumerType == 'Commercial') ...[
-                  //   Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       const Text(
-                  //         'Load',
-                  //         style: TextStyle(
-                  //           color: Colors.white,
-                  //           fontSize: 15,
-                  //           fontWeight: FontWeight.bold,
-                  //         ),
-                  //       ),
-                  //       AppDropDown(
-                  //         labelText: 'Select Load',
-                  //         items: const ['Up to 5 Kw', 'Above 5 Kw'],
-                  //         onChanged: (selectedItem) {
-                  //           setState(() {
-                  //             _selectedLoad = selectedItem;
-                  //           });
-                  //         },
-                  //       ),
-                  //     ],
-                  //   ),
-                  //   Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       const Text(
-                  //         'Time Of Use',
-                  //         style: TextStyle(
-                  //           color: Colors.white,
-                  //           fontSize: 15,
-                  //           fontWeight: FontWeight.bold,
-                  //         ),
-                  //       ),
-                  //       AppDropDown(
-                  //         labelText: 'Select Time Of Use',
-                  //         items: const ['Peak', 'Off-Peak'],
-                  //         onChanged: (selectedItem) {
-                  //           setState(() {
-                  //             _selectedTimeOfUse = selectedItem;
-                  //           });
-                  //         },
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ],
+
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
