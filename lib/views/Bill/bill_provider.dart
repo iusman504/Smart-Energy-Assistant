@@ -12,32 +12,20 @@ class BillProvider with ChangeNotifier {
   bool get isChecked2 => _isChecked2;
   String? selectedConsumerType;
 
-  // double totalUnits = 0.0;
-  // double unitsPrice = 0.0;
-  // double unitsP1 = 0.0;
-  // double unitsP2 = 0.0;
-  // double unitsP3 = 0.0;
-  // double unitsP4 = 0.0;
-  // double unitsUp1 = 0.0;
-  // double unitsUp2 = 0.0;
-  // double unitsUp3 = 0.0;
-  // double unitsUp4 = 0.0;
-  // double unitsUp5 = 0.0;
-  // double unitsUp6 = 0.0;
-  // double unitsUp7 = 0.0;
-  // double unitsUp8 = 0.0;
-  // double totalCost = 0.0;
-  // double currentBill = 0.0;
-  // double fixedCharges = 0.0;
-  // double electricityDuty = 0.0;
-  // double tvFee = 0.0;
-  // double gst = 0.0;
-  // double annualQtr = 0.0;
-  // double fcSur = 0.0;
-  // double totalFpa = 0.0;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  void setLoading(bool value) {
+    print("Loading state: $value");
+    _isLoading = value;
+    notifyListeners();
+  }
+
+
 
   Future<void> testReadValue() async {
     try {
+      setLoading(true);
       DatabaseReference dbRef = FirebaseDatabase.instance.ref();
       TConstant.unitsP1 = await _fetchValue(dbRef.child('unitsP1'));
       TConstant.unitsP2 = await _fetchValue(dbRef.child('unitsP2'));
@@ -57,8 +45,12 @@ class BillProvider with ChangeNotifier {
       TConstant.annualQtr = await _fetchValue(dbRef.child('annualQtr'));
       TConstant.fcSur = await _fetchValue(dbRef.child('fcSur'));
       TConstant.totalFpa = await _fetchValue(dbRef.child('totalFpa'));
-      notifyListeners();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setLoading(false);
+      //  notifyListeners();
+      });
     } catch (e) {
+      setLoading(false);
       debugPrint("Error reading values from Firebase: $e");
     }
   }
@@ -210,14 +202,23 @@ class BillProvider with ChangeNotifier {
     });
   }
 
+  // void validate(BuildContext context){
+  //   if (selectedConsumerType == null) {
+  //     showSnackBar('Please Select Consumer Type', context);
+  //   }
+  // }
+
   void nextPage(BuildContext context, PageController pageController) {
     if (selectedConsumerType == null) {
       showSnackBar('Please Select Consumer Type', context);
     }
 
     else {
-      _calculateBill();
-      _navigateToNextPage(pageController);
+      testReadValue().then((value){
+        _calculateBill();
+        _navigateToNextPage(pageController);
+      });
+
     }
   }
 
@@ -244,16 +245,7 @@ class BillProvider with ChangeNotifier {
    notifyListeners();
   }
 
-  // void updateCheckboxVisibility() {
-  //   if (selectedConsumerType == 'Residential' || selectedConsumerType == 'Mosque') {
-  //     showCheckbox = totalUnits <= 200;
-  //     showFirstCheckbox = totalUnits <= 100;
-  //     showSecondCheckbox = totalUnits > 100 && totalUnits <= 200;
-  //   } else {
-  //     showCheckbox = showFirstCheckbox = showSecondCheckbox  = false;
-  //   }
-  //   notifyListeners();
-  // }
+
 
   void changeConsumerType(value){
     selectedConsumerType = value;
@@ -276,15 +268,11 @@ notifyListeners();
   }
 
  void updateCheckBox2 ( bool? value) {
-  // if (totalUnits > 100) {
-  // showSnackBar('Units Is More Than 100', context);
-  // } else {
   _isChecked2 = value ?? false;
   if (_isChecked2){
     _isChecked1 = false;
   }
 notifyListeners();
- // }
   }
 
 }

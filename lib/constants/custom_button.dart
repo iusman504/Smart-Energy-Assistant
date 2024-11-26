@@ -6,9 +6,10 @@ class CustomButton extends StatelessWidget {
  final String btnText;
  final double btnHeight;
  final double btnWidth;
+ final bool loading;
  final  void Function() onPress;
 
-  const CustomButton({super.key, required this.btnText , required this.btnHeight, required this.btnWidth, required this.onPress });
+  const CustomButton({super.key, required this.btnText , required this.btnHeight, required this.btnWidth, required this.onPress, this.loading = false, });
 
 
 
@@ -22,7 +23,7 @@ class CustomButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(10)),
         color: Colours.kGreenColor,
         onPressed: onPress,
-        child:   Text(btnText, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),),
+        child: loading ? Center(child: const CircularProgressIndicator(color: Colors.white,)) : Text( btnText, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),),
     );
 
 
