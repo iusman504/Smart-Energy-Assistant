@@ -95,7 +95,7 @@ class _StatisticsState extends State<Statistics> {
                                   cost: snapshot.data!.docs[index]['Total_Cost'],
                                   fpa: snapshot.data!.docs[index]['Total_FPA'],
                                   GST: snapshot.data!.docs[index]['GST'],
-                                   Qtr: snapshot.data!.docs[index]['Annual_QTR'],
+                                   Qtr: snapshot.data!.docs[index]['Annual_QTR'], docId: snapshot.data!.docs[index].id,
                                     )));
                       },
                       child: Card(

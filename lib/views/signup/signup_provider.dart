@@ -42,10 +42,12 @@ void clearFields(){
       FirebaseFirestore.instance.collection('user').doc(currentUser!.uid).set({
         'Name' : nameController.text.trim(),
         'Phone No' : phoneNoController.text.trim(),
+        'user_id' : currentUser.uid
       });
 
       SharedPreferences sp = await SharedPreferences.getInstance();
       sp.setString('name', nameController.text.trim());
+      sp.setString('user_id', currentUser.uid);
 
       notifyListeners();
       return null;

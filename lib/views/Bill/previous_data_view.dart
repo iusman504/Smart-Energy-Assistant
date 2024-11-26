@@ -152,6 +152,7 @@ class _PreviousDataViewState extends State<PreviousDataView>
                                 ),
                               ),
                               CustomTextField(
+                                keyboardType: TextInputType.number,
                                 controller: vm.pResponseController,
                                 hintText: 'Enter Previous Units',
                                 read: false,

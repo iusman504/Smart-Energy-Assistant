@@ -160,6 +160,7 @@ class _CurrentDataViewState extends State<CurrentDataView>
                             ),
                           ),
                           CustomTextField(
+                              keyboardType: TextInputType.number,
                               controller: vm.cResponseController,
                               hintText: 'Enter Current Units',
                               read: false,

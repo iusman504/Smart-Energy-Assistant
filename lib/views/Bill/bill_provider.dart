@@ -67,10 +67,22 @@ class BillProvider with ChangeNotifier {
     try {
       DatabaseEvent event = await ref.once();
       dynamic value = event.snapshot.value;
-      return value;
+      return _parseDouble(value);
     } catch (e) {
       debugPrint("Error fetching value: $e");
       return 0.0;
+    }
+  }
+
+  double _parseDouble(dynamic value) {
+    if (value is int) {
+      return value.toDouble();
+    } else if (value is double) {
+      return value;
+    } else if (value is String) {
+      return double.tryParse(value) ?? 0.0;
+    } else {
+      return 0.0; // Default value in case of unknown type
     }
   }
 

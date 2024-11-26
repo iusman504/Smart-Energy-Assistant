@@ -30,7 +30,7 @@ class DataProvider with ChangeNotifier{
   void _onCResponseChanged() {
     if (cResponseController.text.isNotEmpty) {
       dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
-      timeController.text = DateFormat('HH:mm a').format(DateTime.now());
+      timeController.text = DateFormat('hh:mm a').format(DateTime.now());
     } else {
       dateController.clear();
       timeController.clear();

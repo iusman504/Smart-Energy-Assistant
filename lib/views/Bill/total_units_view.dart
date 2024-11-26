@@ -1,4 +1,3 @@
-// import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sea/components/total_container.dart';
@@ -88,7 +87,7 @@ class _TotalUnitsState extends State<TotalUnits> {
   //     return 0.0; // Default value in case of unknown type
   //   }
   // }
-  //
+
   // void _previousPage() {
   //   WidgetsBinding.instance.addPostFrameCallback((_) {
   //     if (widget.pageController.page != null) {
