@@ -109,7 +109,7 @@ class _PreviousDataViewState extends State<PreviousDataView>
                           onPress: vm.pickedImage != null
                               ? () {
                                   if (vm.pickedImage != null) {
-                                    vm.getPreviousData(vm.pickedImage, context);
+                                     vm.getPreviousData(vm.pickedImage!.path, );
                                   }
                                 }
                               : () {

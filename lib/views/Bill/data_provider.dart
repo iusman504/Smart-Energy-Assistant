@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../components/image_cropper.dart';
+import '../../data/response/api_response.dart';
+import '../../repository/api_repository.dart';
 import '../../utils/constant.dart';
 import '../../utils/utils.dart';
 
@@ -128,8 +130,37 @@ class DataProvider with ChangeNotifier{
     }
   }
 
-  Future<void> getPreviousData(image, BuildContext context) async {
-    await analyzeMeterImage(image, pResponseController, context);
+  final _myRepo =ApiRepository();
+
+  ApiResponse apiResponse= ApiResponse.loading();
+
+  setResponse(ApiResponse response){
+    apiResponse = response;
+    notifyListeners();
+  }
+  final prompt = "Analyze the following image of an electric meter and provide the units_value displayed on it. Do not include the unit (kWh). Only respond with the units_value exactly as it appears on the display.";
+
+  Future<dynamic> getResponse (String imagePath, TextEditingController responseController,) async{
+    setResponse(ApiResponse.loading());
+    _myRepo.fetchResponse(prompt, imagePath).then((value){
+      setResponse(ApiResponse.completed(value));
+      double formattedValue;
+      if (value.contains('.')) {
+        formattedValue = double.parse(value);
+      } else {
+        formattedValue = int.parse(value) / 100;
+      }
+
+      // Update the text controller with the formatted value
+      responseController.text = formattedValue.toStringAsFixed(2);
+    }).onError((error, stackTrace){
+      setResponse(ApiResponse.error(error.toString()));
+    });
+  }
+
+  Future<void> getPreviousData(imagePath, ) async {
+    await getResponse(imagePath, pResponseController);
+    // await analyzeMeterImage(image, pResponseController, context);
   }
 
   Future<void> getCurrentData(image, BuildContext context) async {

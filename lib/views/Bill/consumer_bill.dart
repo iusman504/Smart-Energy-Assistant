@@ -9,7 +9,6 @@ import 'package:sea/constants/custom_appbar.dart';
 import 'package:sea/constants/custom_button.dart';
 import 'package:sea/utils/screen_size.dart';
 import 'package:sea/views/login/login_provider.dart';
-
 import '../../constants/colors.dart';
 import '../../utils/constant.dart';
 import '../../utils/utils.dart';
