@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'consumer_bill.dart';
-import 'current_data_view.dart';
-import 'previous_data_view.dart';
-import 'total_units_view.dart';
+import '../../view/consumer_bill.dart';
+import '../../view/current_data_view.dart';
+import '../../view/previous_data_view.dart';
+import '../../view/total_units_view.dart';
 
 
 class BillPageView extends StatefulWidget {

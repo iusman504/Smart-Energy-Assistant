@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _fetchUserId() {
     final user = FirebaseAuth.instance.currentUser;
     setState(() {
-      userId = user?.uid; // Fetch the UID of the currently logged-in user
+      userId = user!.uid;
     });
   }
 

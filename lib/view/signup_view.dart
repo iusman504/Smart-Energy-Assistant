@@ -41,7 +41,6 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     var heightX = MediaQuery.of(context).size.height;
     var widthX = MediaQuery.of(context).size.width;
-    // final signupProvider = Provider.of<SignupProvider>(context);
     return Scaffold(
       backgroundColor: Colours.kScaffoldColor,
       body: Consumer<SignupProvider>(
@@ -53,7 +52,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset('assets/images/3.png',
-
                      color: Colours.kGreenColor,
                     height: heightX * 0.2,
                   ),
@@ -135,7 +133,6 @@ class _SignupScreenState extends State<SignupScreen> {
                             showSnackBar(
                                 'An unexpected error occurred. Please try again.');
 
-                            //debugPrint(e as String?) ;
                           }
                         }, btnText: 'Sign Up', btnHeight: heightX * 0.06, btnWidth: widthX * 0.95,
 

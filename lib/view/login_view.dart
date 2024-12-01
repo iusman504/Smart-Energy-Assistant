@@ -5,7 +5,7 @@ import '../res/components/custom_button.dart';
 import '../res/components/custom_textfield.dart';
 import '../res/components/password_textfield.dart';
 import '../view_model/login_view_model.dart';
-import 'navigation.dart';
+import '../res/components/navigation.dart';
 import 'signup_view.dart';
 
 class LoginScreen extends StatefulWidget {
