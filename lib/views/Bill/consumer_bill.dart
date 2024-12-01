@@ -12,6 +12,7 @@ import 'package:sea/constants/custom_button.dart';
 import 'package:sea/utils/screen_size.dart';
 import 'package:sea/views/login/login_provider.dart';
 
+import '../../constants/colors.dart';
 import '../../utils/constant.dart';
 
 class ConsumerBill extends StatefulWidget {
@@ -40,7 +41,9 @@ class _ConsumerBillState extends State<ConsumerBill> {
 
 
 
+
   Widget content(BuildContext context) {
+    final loginProvider = Provider.of<LoginProvider>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -57,6 +60,24 @@ class _ConsumerBillState extends State<ConsumerBill> {
                 ),
                 const SizedBox(height: 20),
                 const DetailsSection(),
+                const SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color:Colours.kGreenColor, // Slightly transparent background
+                    borderRadius: BorderRadius.circular(10), // Rounded corners
+                  ),
+                  child: Text(
+                    'Note: This is an estimated bill. Annual QTR and FPA are excluded, and there may be slight variations in other taxes.',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14, // Adjust font size
+                      fontWeight: FontWeight.w400, // Regular weight
+                    ),
+                    textAlign: TextAlign.center, // Center align the text
+                  ),
+                ),
+
               ],
             ),
           ),
@@ -73,27 +94,30 @@ class _ConsumerBillState extends State<ConsumerBill> {
                 width: 10,
               ),
               CustomButton(
-                btnText: 'Download Bill',
+                btnText: 'Save Bill',
                 btnHeight: screenHeight(context) * 0.053,
                 btnWidth: screenWidth(context) * 0.42,
                 onPress: () async {
-                  try {
-                    final pdfBytes = await generatePdf(widget.invoice);
-                    await Printing.sharePdf(
-                      bytes: pdfBytes, filename: 'Bill.pdf',
-                    );
-                  } catch (e) {
-                    debugPrint('Error generating or sharing PDF: $e');
-                  }
+                  // try {
+                  //   final pdfBytes = await generatePdf(widget.invoice);
+                  //   await Printing.sharePdf(
+                  //     bytes: pdfBytes, filename: 'Bill.pdf',
+                  //   );
+                  // } catch (e) {
+                  //   debugPrint('Error generating or sharing PDF: $e');
+                  // }
                   QuerySnapshot existingBills = await FirebaseFirestore.instance
                       .collection('Bill_Details')
                       .where('Bill_Month', isEqualTo:DateFormat('MMMM yyyy').format(DateTime.now()))
-                      .where('Current_Units', isEqualTo: TConstant.currUnits)
+                      .where('Units_Consumed', isEqualTo: TConstant.totalUnits)
+                  .where('Units_Price', isEqualTo: TConstant.unitsPrice)
                       .get();
     if (existingBills.docs.isEmpty) {
       double ed = (TConstant.electricityDuty / 100) * TConstant.totalCost;
       double fc = TConstant.fcSur * TConstant.totalUnits;
+      double gst = (ed + fc + TConstant.totalCost) * (TConstant.gst/100);
       await FirebaseFirestore.instance.collection('Bill_Details').doc().set({
+        'Name':loginProvider.name,
         'Bill_Month': DateFormat('MMMM yyyy').format(DateTime.now()),
         'Reading_Date': DateFormat('dd/MM/yyyy').format(DateTime.now()),
         'Previous_Units': TConstant.prevUnits,
@@ -103,13 +127,21 @@ class _ConsumerBillState extends State<ConsumerBill> {
         'Total_Cost': TConstant.totalCost.toStringAsFixed(2),
         'Electricity_Duty': ed.toStringAsFixed(2),
         'TV_Fee': TConstant.tvFee,
-        'GST': TConstant.gst,
-        'Annual_QTR': TConstant.annualQtr,
+        'GST': gst.toStringAsFixed(2),
+     //   'Annual_QTR': TConstant.annualQtr,
         'FC_SUR': fc.toStringAsFixed(2),
-        'Total_FPA': TConstant.totalFpa,
+     //   'Total_FPA': TConstant.totalFpa,
         'Current_Bill': TConstant.currentBill.toStringAsFixed(2),
         'user_id': FirebaseAuth.instance.currentUser!.uid,
       });
+      // Show Snackbar after data is saved
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Bill data saved successfully!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+
     }
     else {
       print('data already present');
@@ -123,12 +155,12 @@ class _ConsumerBillState extends State<ConsumerBill> {
     );
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    Provider.of<LoginProvider>(context,listen: false).fetchUserDetails();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   Provider.of<LoginProvider>(context,listen: false).fetchUserDetails();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

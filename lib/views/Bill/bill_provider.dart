@@ -1,6 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sea/utils/constant.dart';
+import 'package:sea/views/login/login_provider.dart';
 
 class BillProvider with ChangeNotifier {
   bool showCheckbox = false;
@@ -161,13 +163,14 @@ class BillProvider with ChangeNotifier {
     // TConstant.totalCost = totalCost;
     double ed = (TConstant.electricityDuty / 100) * TConstant.totalCost;
     double fc =  TConstant.fcSur * TConstant.totalUnits;
-
+double gst = (ed + fc + TConstant.totalCost) * (TConstant.gst/100);
     if (selectedConsumerType == 'Residential') {
       TConstant.currentBill = TConstant.totalCost +
           ed +
           // TConstant.electricityDuty +
           TConstant.tvFee +
-          TConstant.gst +
+          gst +
+        //  TConstant.gst +
           TConstant.annualQtr +
           fc +
           // TConstant.fcSur +
@@ -179,7 +182,8 @@ class BillProvider with ChangeNotifier {
       TConstant.currentBill = TConstant.totalCost +
           ed +
           //   TConstant.electricityDuty +
-          TConstant.gst +
+          // TConstant.gst +
+          gst +
           TConstant.annualQtr +
           fc +
           // TConstant.fcSur +
@@ -215,6 +219,9 @@ class BillProvider with ChangeNotifier {
 
     else {
       testReadValue().then((value){
+        Provider.of<LoginProvider>(context, listen: false).fetchUserDetails();
+      })
+          .then((value){
         _calculateBill();
         _navigateToNextPage(pageController);
       });

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -17,22 +18,26 @@ class DetailsSection extends StatefulWidget {
 
 class _DetailsSectionState extends State<DetailsSection> {
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    Provider.of<LoginProvider>(context,listen: false).fetchUserDetails();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   Provider.of<LoginProvider>(context,listen: false).fetchUserDetails();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<LoginProvider>(context);
+     final loginProvider = Provider.of<LoginProvider>(context);
+    // final userId = FirebaseAuth.instance.currentUser!.uid;
+    // DocumentSnapshot userDoc =await FirebaseFirestore.instance.collection('user').doc(userId).get();
+    // final userName = userDoc.get('Name');
    // final billProvider = Provider.of<BillProvider>(context);
 print(TConstant.electricityDuty);
 
     //TConstant.currentBill = TConstant.totalCost + TConstant.electricityDuty + TConstant.tvFee + TConstant.gst + TConstant.annualQtr + TConstant.fcSur + TConstant.totalFpa;
 double ed = (TConstant.electricityDuty /100) * TConstant.totalCost;
 double fc = TConstant.fcSur * TConstant.totalUnits;
+    double gst = (ed + fc + TConstant.totalCost) * (TConstant.gst/100);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,11 +53,12 @@ double fc = TConstant.fcSur * TConstant.totalUnits;
   //      _buildDetailRow('Electricity Duty:', TConstant.electricityDuty),
         _buildDetailRow('Electricity Duty:', ed.toStringAsFixed(2)),
         _buildDetailRow('TV Fee:', TConstant.tvFee),
-        _buildDetailRow('GST:',TConstant.gst),
-        _buildDetailRow('Annual Qtr:',TConstant.annualQtr),
+        _buildDetailRow('GST:',gst.toStringAsFixed(2)),
+        // _buildDetailRow('GST:',TConstant.gst),
+       // _buildDetailRow('Annual Qtr:',TConstant.annualQtr),
     //    _buildDetailRow('FC-SUR:',TConstant.fcSur),
         _buildDetailRow('FC-SUR:',fc.toStringAsFixed(2)),
-        _buildDetailRow('Total FPA:', TConstant.totalFpa),
+      //  _buildDetailRow('Total FPA:', TConstant.totalFpa),
         _buildDetailRow('Current Bill:', TConstant.currentBill.toStringAsFixed(2)),
       ],
     );

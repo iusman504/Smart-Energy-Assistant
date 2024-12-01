@@ -23,9 +23,7 @@ class TotalUnits extends StatefulWidget {
 }
 
 class _TotalUnitsState extends State<TotalUnits> {
-
-
-
+  
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -88,14 +89,29 @@ class LoginProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchUserDetails ()async{
+  // void fetchUserDetails ()async{
+  //   final userId = FirebaseAuth.instance.currentUser!.uid;
+  //   // SharedPreferences sp = await SharedPreferences.getInstance();
+  //   // _name = sp.getString('name') ?? '';
+  //
+  //   notifyListeners();
+  // }
 
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    _name = sp.getString('name') ?? '';
+  Future<void> fetchUserDetails() async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('user').doc(userId).get();
 
-    notifyListeners();
+        _name = userDoc.get('Name');
+        _isLoading = false;
+     notifyListeners();
+    } catch (e) {
+
+        _isLoading = false;
+      // Handle errors if needed
+      print("Error fetching user details: $e");
+    }
   }
-
 
   void clearFields(){
     emailController.clear();
