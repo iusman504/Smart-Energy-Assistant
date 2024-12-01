@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../view/Bill/data_provider.dart';
+import '../../view_model/data_view_model.dart';
 import '../colors.dart';
 
 void showImageSourceDialog(BuildContext context, DataProvider previousProvider) {

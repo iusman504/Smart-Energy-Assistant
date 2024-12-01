@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'login_screen.dart';
+import '../view/login_view.dart';
 
 class LoginProvider with ChangeNotifier {
   TextEditingController _emailController = TextEditingController();
@@ -14,7 +14,7 @@ class LoginProvider with ChangeNotifier {
   String get emailText => _emailController.text.trim();
   String get passwordText => _passwordController.text.trim();
 
- late String _name = '';
+  late String _name = '';
   String get name=> _name;
 
 
@@ -102,12 +102,12 @@ class LoginProvider with ChangeNotifier {
       final userId = FirebaseAuth.instance.currentUser!.uid;
       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('user').doc(userId).get();
 
-        _name = userDoc.get('Name');
-        _isLoading = false;
-     notifyListeners();
+      _name = userDoc.get('Name');
+      _isLoading = false;
+      notifyListeners();
     } catch (e) {
 
-        _isLoading = false;
+      _isLoading = false;
       // Handle errors if needed
       print("Error fetching user details: $e");
     }

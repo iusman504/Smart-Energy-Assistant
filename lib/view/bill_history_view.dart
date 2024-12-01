@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
-import '../../res/colors.dart';
-import '../../res/components/custom_appbar.dart';
-import '../../res/components/custom_button.dart';
-import '../../utils/screen_size.dart';
+import '../res/colors.dart';
+import '../res/components/custom_appbar.dart';
+import '../res/components/custom_button.dart';
+import '../utils/screen_size.dart';
 
 class BillDetailsHistory extends StatelessWidget {
   final String Name;

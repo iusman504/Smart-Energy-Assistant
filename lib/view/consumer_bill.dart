@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sea/utils/screen_size.dart';
-import '../../res/colors.dart';
-import '../../res/components/custom_appbar.dart';
-import '../../res/components/custom_button.dart';
-import '../../res/components/details_section.dart';
-import '../../res/components/constant.dart';
-import '../../utils/utils.dart';
-import '../login/login_provider.dart';
+import '../res/colors.dart';
+import '../res/components/custom_appbar.dart';
+import '../res/components/custom_button.dart';
+import '../res/components/details_section.dart';
+import '../res/components/constant.dart';
+import '../utils/utils.dart';
+import '../view_model/login_view_model.dart';
 
 class ConsumerBill extends StatefulWidget {
   final PageController pageController;

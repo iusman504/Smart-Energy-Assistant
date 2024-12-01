@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../res/colors.dart';
-import '../../res/components/custom_appbar.dart';
-import '../login/login_provider.dart';
-import 'bill_details_history.dart';
+import '../res/colors.dart';
+import '../res/components/custom_appbar.dart';
+import '../view_model/login_view_model.dart';
+import 'bill_history_view.dart';
 
 class Statistics extends StatefulWidget {
   const Statistics({super.key});

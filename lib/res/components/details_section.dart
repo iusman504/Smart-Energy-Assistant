@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sea/res/components/constant.dart';
-
-import '../../view/login/login_provider.dart';
+import '../../view_model/login_view_model.dart';
 
 class DetailsSection extends StatefulWidget {
   const DetailsSection({super.key});

@@ -1,8 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../view/login/login_provider.dart';
+import '../../view_model/login_view_model.dart';
 import '../colors.dart';
 
 

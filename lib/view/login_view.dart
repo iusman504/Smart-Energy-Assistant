@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../res/colors.dart';
-import '../../res/components/custom_button.dart';
-import '../../res/components/custom_textfield.dart';
-import '../../res/components/password_textfield.dart';
-import '../navigation.dart';
-import '../signup/signup_screen.dart';
-import 'login_provider.dart';
+import '../res/colors.dart';
+import '../res/components/custom_button.dart';
+import '../res/components/custom_textfield.dart';
+import '../res/components/password_textfield.dart';
+import '../view_model/login_view_model.dart';
+import 'navigation.dart';
+import 'signup_view.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

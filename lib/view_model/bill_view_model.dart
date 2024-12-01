@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sea/res/components/constant.dart';
 
-import '../../utils/utils.dart';
-import '../login/login_provider.dart';
+import '../utils/utils.dart';
+import 'login_view_model.dart';
 
 class BillProvider with ChangeNotifier {
   bool showCheckbox = false;

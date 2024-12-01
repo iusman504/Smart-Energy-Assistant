@@ -4,9 +4,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-import '../../res/colors.dart';
-import '../../res/components/custom_appbar.dart';
-import '../Home/home_provider.dart';
+import '../res/colors.dart';
+import '../res/components/custom_appbar.dart';
+import '../view_model/home_view_model.dart';
 
 class Readings extends StatefulWidget {
   const Readings({super.key});

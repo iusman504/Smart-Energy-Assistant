@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../res/colors.dart';
 import '../res/components/hide_snackbar.dart';
-import 'Home/home_screen.dart';
-import 'Reading/readings_view.dart';
-import 'Statistics/statistics_view.dart';
+import 'home_view.dart';
+import 'readings_view.dart';
+import 'statistics_view.dart';
 import 'bill_page_view.dart';
 
 class Navigation extends StatefulWidget {

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sea/utils/screen_size.dart';
 
-import '../../res/colors.dart';
-import '../../res/components/app_dropdown.dart';
-import '../../res/components/custom_appbar.dart';
-import '../../res/components/custom_button.dart';
-import '../../res/components/total_container.dart';
-import '../../res/components/constant.dart';
-import 'bill_provider.dart';
+import '../res/colors.dart';
+import '../res/components/app_dropdown.dart';
+import '../res/components/custom_appbar.dart';
+import '../res/components/custom_button.dart';
+import '../res/components/total_container.dart';
+import '../res/components/constant.dart';
+import '../view_model/bill_view_model.dart';
 
 class TotalUnits extends StatefulWidget {
   final PageController pageController;

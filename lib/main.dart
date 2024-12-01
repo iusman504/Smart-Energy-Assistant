@@ -6,11 +6,11 @@ import 'package:provider/provider.dart';
 import 'package:sea/firebase_options.dart';
 import 'package:sea/res/colors.dart';
 import 'package:sea/res/components/hide_snackbar.dart';
-import 'package:sea/view/Bill/bill_provider.dart';
-import 'package:sea/view/Home/home_provider.dart';
-import 'package:sea/view/login/login_provider.dart';
-import 'package:sea/view/signup/signup_provider.dart';
-import 'package:sea/view/splash_screen/splash_screen.dart';
+import 'package:sea/view_model/bill_view_model.dart';
+import 'package:sea/view_model/home_view_model.dart';
+import 'package:sea/view_model/signup_view_model.dart';
+import 'package:sea/view/splash_view.dart';
+import 'package:sea/view_model/login_view_model.dart';
 
 
 void main() async {

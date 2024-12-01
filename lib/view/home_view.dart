@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../res/components/custom_appbar.dart';
-import '../../res/components/home_container.dart';
-import '../../res/components/image_carousel.dart';
-import '../../res/components/notification_services.dart';
-import 'home_provider.dart';
+import '../res/components/custom_appbar.dart';
+import '../res/components/home_container.dart';
+import '../res/components/image_carousel.dart';
+import '../res/components/notification_services.dart';
+import '../view_model/home_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

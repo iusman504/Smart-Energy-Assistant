@@ -4,14 +4,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:sea/utils/screen_size.dart';
 
-import '../../res/colors.dart';
-import '../../res/components/bottom_dilogue_widget.dart';
-import '../../res/components/custom_appbar.dart';
-import '../../res/components/custom_button.dart';
-import '../../res/components/custom_textfield.dart';
-import '../../res/components/divider.dart';
-import '../../utils/utils.dart';
-import 'data_provider.dart';
+import '../res/colors.dart';
+import '../res/components/bottom_dilogue_widget.dart';
+import '../res/components/custom_appbar.dart';
+import '../res/components/custom_button.dart';
+import '../res/components/custom_textfield.dart';
+import '../res/components/divider.dart';
+import '../utils/utils.dart';
+import '../view_model/data_view_model.dart';
 
 
 class CurrentDataView extends StatefulWidget {

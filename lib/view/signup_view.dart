@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sea/view/signup/signup_provider.dart';
-import '../../res/colors.dart';
-import '../../res/components/custom_button.dart';
-import '../../res/components/custom_textfield.dart';
-import '../../res/components/password_textfield.dart';
-import '../login/login_screen.dart';
+import 'package:sea/view_model/signup_view_model.dart';
+import '../res/colors.dart';
+import '../res/components/custom_button.dart';
+import '../res/components/custom_textfield.dart';
+import '../res/components/password_textfield.dart';
+import 'login_view.dart';
 
 
 class SignupScreen extends StatefulWidget {
