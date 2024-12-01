@@ -8,7 +8,7 @@ import '../../res/colors.dart';
 import '../../res/components/custom_appbar.dart';
 import '../../res/components/custom_button.dart';
 import '../../res/components/details_section.dart';
-import '../../utils/constant.dart';
+import '../../res/components/constant.dart';
 import '../../utils/utils.dart';
 import '../login/login_provider.dart';
 

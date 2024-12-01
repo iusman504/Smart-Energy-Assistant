@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sea/utils/constant.dart';
+import 'package:sea/res/components/constant.dart';
 
 import '../../utils/utils.dart';
 import '../login/login_provider.dart';

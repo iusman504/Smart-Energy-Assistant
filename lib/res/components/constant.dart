@@ -1,13 +1,4 @@
-import 'package:fl_chart/fl_chart.dart';
-
 class TConstant {
-  static int voltage = 0;
-  static int current = 0;
-  static int humidity = 0;
-  static int temp = 0;
-  // static List<FlSpot> temp1 = [];
-  // static const List<List<int>> activeHours = [];
-  // static const List<List<int>> nonActiveHours = [];
   static String prevUnits = '';
   static String currUnits = '';
   static double totalUnits = 0.0;

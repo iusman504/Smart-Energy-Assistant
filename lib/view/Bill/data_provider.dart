@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import '../../data/response/api_response.dart';
 import '../../repository/api_repository.dart';
 import '../../res/components/image_cropper.dart';
-import '../../utils/constant.dart';
+import '../../res/components/constant.dart';
 import '../../utils/utils.dart';
 
 class DataProvider with ChangeNotifier{
