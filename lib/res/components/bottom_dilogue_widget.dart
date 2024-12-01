@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sea/constants/colors.dart';
-import 'package:sea/views/Bill/data_provider.dart';
+
+import '../../view/Bill/data_provider.dart';
+import '../colors.dart';
 
 void showImageSourceDialog(BuildContext context, DataProvider previousProvider) {
   showModalBottomSheet(

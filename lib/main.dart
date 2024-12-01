@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:provider/provider.dart';
-import 'package:sea/constants/colors.dart';
-import 'package:sea/constants/hide_snackbar.dart';
 import 'package:sea/firebase_options.dart';
-import 'package:sea/views/Bill/bill_provider.dart';
-import 'package:sea/views/Bill/data_provider.dart';
-import 'package:sea/views/Home/home_provider.dart';
-import 'package:sea/views/login/login_provider.dart';
-import 'package:sea/views/signup/signup_provider.dart';
-import 'package:sea/views/splash_screen/splash_screen.dart';
+import 'package:sea/res/colors.dart';
+import 'package:sea/res/components/hide_snackbar.dart';
+import 'package:sea/view/Bill/bill_provider.dart';
+import 'package:sea/view/Home/home_provider.dart';
+import 'package:sea/view/login/login_provider.dart';
+import 'package:sea/view/signup/signup_provider.dart';
+import 'package:sea/view/splash_screen/splash_screen.dart';
 
 
 void main() async {
@@ -39,7 +38,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => HomeProvider()),
       ChangeNotifierProvider(create: (_) => BillProvider()),
-    //  ChangeNotifierProvider(create: (_) => DataProvider()),
       ChangeNotifierProvider(create: (_) => SignupProvider()),
       ChangeNotifierProvider(create: (_) => LoginProvider()),
     ],

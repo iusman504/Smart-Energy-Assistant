@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sea/utils/constant.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../views/login/login_provider.dart';
+import '../../view/login/login_provider.dart';
 
 class DetailsSection extends StatefulWidget {
   const DetailsSection({super.key});

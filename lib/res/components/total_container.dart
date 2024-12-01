@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sea/constants/colors.dart';
 import 'package:sea/utils/screen_size.dart';
+
+import '../colors.dart';
 
 class TotalContainer extends StatelessWidget {
   final String text;
