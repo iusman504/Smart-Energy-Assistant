@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:sea/components/details_section.dart';
-import 'package:sea/components/generate_pdf.dart';
 import 'package:sea/components/invoice.dart';
 import 'package:sea/constants/custom_appbar.dart';
 import 'package:sea/constants/custom_button.dart';
@@ -14,6 +12,7 @@ import 'package:sea/views/login/login_provider.dart';
 
 import '../../constants/colors.dart';
 import '../../utils/constant.dart';
+import '../../utils/utils.dart';
 
 class ConsumerBill extends StatefulWidget {
   final Invoice invoice;
@@ -134,13 +133,7 @@ class _ConsumerBillState extends State<ConsumerBill> {
         'Current_Bill': TConstant.currentBill.toStringAsFixed(2),
         'user_id': FirebaseAuth.instance.currentUser!.uid,
       });
-      // Show Snackbar after data is saved
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Bill data saved successfully!'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      Utils().showSnackBar('Bill saved successfully!', context);
 
     }
     else {

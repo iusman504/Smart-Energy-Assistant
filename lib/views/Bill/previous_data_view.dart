@@ -11,6 +11,8 @@ import 'package:sea/constants/divider.dart';
 import 'package:sea/utils/screen_size.dart';
 import 'package:sea/views/Bill/data_provider.dart';
 
+import '../../utils/utils.dart';
+
 class PreviousDataView extends StatefulWidget {
   final PageController pageController;
   const PreviousDataView({super.key, required this.pageController});
@@ -111,7 +113,7 @@ class _PreviousDataViewState extends State<PreviousDataView>
                                   }
                                 }
                               : () {
-                                  vm.showSnackBar(
+                            Utils().showSnackBar(
                                       'Please Upload Image First', context);
                                 },
                         ),

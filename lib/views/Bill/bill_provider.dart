@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:sea/utils/constant.dart';
 import 'package:sea/views/login/login_provider.dart';
 
+import '../../utils/utils.dart';
+
 class BillProvider with ChangeNotifier {
   bool showCheckbox = false;
   bool showFirstCheckbox = false;
@@ -92,20 +94,6 @@ class BillProvider with ChangeNotifier {
     });
   }
 
-  void showSnackBar(String message, BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style:
-          const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.white,
-        action: SnackBarAction(
-            label: 'Cancel', textColor: Colors.red, onPressed: () {}),
-      ),
-    );
-  }
 
   double _calculateTotalCost(double totalUnits) {
     if (isChecked1) {
@@ -214,7 +202,7 @@ double gst = (ed + fc + TConstant.totalCost) * (TConstant.gst/100);
 
   void nextPage(BuildContext context, PageController pageController) {
     if (selectedConsumerType == null) {
-      showSnackBar('Please Select Consumer Type', context);
+      Utils().showSnackBar('Please Select Consumer Type', context);
     }
 
     else {

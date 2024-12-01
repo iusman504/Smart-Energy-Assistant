@@ -9,6 +9,7 @@ import 'package:sea/constants/custom_button.dart';
 import 'package:sea/constants/custom_textfield.dart';
 import 'package:sea/constants/divider.dart';
 import 'package:sea/utils/screen_size.dart';
+import 'package:sea/utils/utils.dart';
 import 'package:sea/views/Bill/data_provider.dart';
 
 
@@ -121,7 +122,7 @@ class _CurrentDataViewState extends State<CurrentDataView>
                         }
                       }
                           : () {
-                        vm.showSnackBar('Please Select Image First', context);
+                        Utils().showSnackBar('Please Select Image First', context);
                       },
                     ),
                     const SizedBox(

@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 
 import '../../components/image_cropper.dart';
 import '../../utils/constant.dart';
+import '../../utils/utils.dart';
 
 class DataProvider with ChangeNotifier{
   XFile? pickedImage;
@@ -111,7 +112,7 @@ class DataProvider with ChangeNotifier{
           double formattedValue = int.parse(myText) / 100;
           responseController.text = formattedValue.toStringAsFixed(2);
         } else {
-          showSnackBar('Select Another Image', context);
+          Utils().showSnackBar('Select Another Image', context);
         }
       } else {
         myText = 'Response status: ${response.statusCode}';
@@ -120,7 +121,7 @@ class DataProvider with ChangeNotifier{
       debugPrint(response.body);
     } catch (error) {
       debugPrint('Error occurred: $error');
-      showSnackBar('Check Your Internet Connection', context);
+      Utils().showSnackBar('Check Your Internet Connection', context);
     } finally {
       scanning = false;
       notifyListeners();
@@ -135,20 +136,7 @@ class DataProvider with ChangeNotifier{
     await analyzeMeterImage(image, cResponseController, context);
   }
 
-  void showSnackBar(String message, BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style:
-          const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.white,
-        action: SnackBarAction(
-            label: 'Cancel', textColor: Colors.red, onPressed: () {}),
-      ),
-    );
-  }
+
 
   Future<void> selectDate(BuildContext context, {required DateTime initialDate}) async {
     DateTime? picked = await showDatePicker(
@@ -216,13 +204,13 @@ class DataProvider with ChangeNotifier{
 
   void validateAndProceed(BuildContext context, PageController pageController, bool isPrevious) {
     if (isPrevious && pResponseController.text.isEmpty) {
-      showSnackBar('Please Enter Previous Units', context);
+      Utils().showSnackBar('Please Enter Previous Units', context);
     } else if (!isPrevious && cResponseController.text.isEmpty) {
-      showSnackBar('Please Enter Current Units', context);
+      Utils().showSnackBar('Please Enter Current Units', context);
     } else if (dateController.text.isEmpty) {
-      showSnackBar('Please Select Reading Date', context);
+      Utils().showSnackBar('Please Select Reading Date', context);
     } else if (timeController.text.isEmpty) {
-      showSnackBar('Please Select Reading Time', context);
+      Utils().showSnackBar('Please Select Reading Time', context);
     } else {
       if (isPrevious) {
         TConstant.prevUnits = pResponseController.text;
@@ -235,7 +223,7 @@ class DataProvider with ChangeNotifier{
           TConstant.totalUnits = current - pre;
           _nextPage(pageController);
         } else {
-          showSnackBar('Current > Previous', context);
+          Utils().showSnackBar('Current > Previous', context);
         }
       }
     }
