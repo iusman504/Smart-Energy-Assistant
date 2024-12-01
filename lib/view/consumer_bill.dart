@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sea/utils/screen_size.dart';
 import 'package:sea/view_model/bill_view_model.dart';
-import 'package:sea/view_model/data_view_model.dart';
 import '../res/colors.dart';
 import '../res/components/custom_appbar.dart';
 import '../res/components/custom_button.dart';
