@@ -4,13 +4,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:sea/constants/colors.dart';
 import 'package:sea/constants/custom_appbar.dart';
-import 'package:sea/components/bottom_dilogue_widget.dart';
 import 'package:sea/constants/custom_button.dart';
 import 'package:sea/constants/custom_textfield.dart';
 import 'package:sea/constants/divider.dart';
 import 'package:sea/utils/screen_size.dart';
 import 'package:sea/utils/utils.dart';
 import 'package:sea/views/Bill/data_provider.dart';
+
+import '../../res/components/bottom_dilogue_widget.dart';
 
 
 class CurrentDataView extends StatefulWidget {
@@ -118,7 +119,7 @@ class _CurrentDataViewState extends State<CurrentDataView>
                       onPress: vm.pickedImage != null
                           ? () {
                         if (vm.pickedImage != null) {
-                          vm.getCurrentData(vm.pickedImage, context);
+                          vm.getCurrentData(vm.pickedImage!.path, context);
                         }
                       }
                           : () {
@@ -246,7 +247,7 @@ class _CurrentDataViewState extends State<CurrentDataView>
                 ),
               ),
             ),
-            if (vm.scanning)
+            if (vm.loading)
               Container(
                 color: Colors.black.withOpacity(0.5),
                 child: const Center(

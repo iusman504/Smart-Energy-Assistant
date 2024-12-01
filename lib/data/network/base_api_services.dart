@@ -1,4 +1,3 @@
 abstract class BaseApiServices {
-
-  Future<dynamic> geminiResponse (String prompt, String imagePath);
+  Future<dynamic> geminiResponse (String url, String prompt, String imagePath);
 }

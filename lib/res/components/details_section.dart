@@ -6,8 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sea/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../views/Bill/bill_provider.dart';
-import '../views/login/login_provider.dart';
+import '../../views/login/login_provider.dart';
 
 class DetailsSection extends StatefulWidget {
   const DetailsSection({super.key});

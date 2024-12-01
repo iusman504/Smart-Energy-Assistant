@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sea/components/total_container.dart';
 import 'package:sea/constants/app_dropdown.dart';
 import 'package:sea/constants/colors.dart';
 import 'package:sea/constants/custom_appbar.dart';
@@ -8,6 +7,7 @@ import 'package:sea/constants/custom_button.dart';
 import 'package:sea/utils/screen_size.dart';
 import 'package:sea/views/Bill/bill_provider.dart';
 
+import '../../res/components/total_container.dart';
 import '../../utils/constant.dart';
 
 class TotalUnits extends StatefulWidget {

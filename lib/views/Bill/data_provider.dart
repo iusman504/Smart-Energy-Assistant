@@ -1,20 +1,24 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-
-import '../../components/image_cropper.dart';
 import '../../data/response/api_response.dart';
 import '../../repository/api_repository.dart';
+import '../../res/components/image_cropper.dart';
 import '../../utils/constant.dart';
 import '../../utils/utils.dart';
 
 class DataProvider with ChangeNotifier{
   XFile? pickedImage;
   String myText = '';
-  bool scanning = false;
+  // bool scanning = false;
+
+  bool _loading = false;
+  bool get loading =>_loading;
+
+  setLoading(bool value){
+    _loading = value;
+    notifyListeners();
+  }
 
   final TextEditingController pResponseController = TextEditingController();
 
@@ -76,59 +80,7 @@ class DataProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> analyzeMeterImage( image, TextEditingController responseController, BuildContext context) async {
-    scanning = true;
-    myText = '';
-    responseController.clear();
-    notifyListeners();
 
-    try {
-      List<int> imageBytes = File(image.path).readAsBytesSync();
-      String base64File = base64.encode(imageBytes);
-
-      const promptValue = "Analyze the following image of an electric meter and provide the units_value displayed on it. Do not include the unit (kWh). Only respond with the units_value exactly as it appears on the display.";
-
-      final data = {
-        "contents": [
-          {
-            "parts": [
-              {"text": promptValue},
-              {
-                "inlineData": {
-                  "mimeType": "image/jpeg",
-                  "data": base64File,
-                }
-              }
-            ]
-          }
-        ],
-      };
-
-      final response = await http.post(Uri.parse(apiUrl), headers: header, body: jsonEncode(data));
-
-      if (response.statusCode == 200) {
-        var result = jsonDecode(response.body);
-        myText = result['candidates'][0]['content']['parts'][0]['text'];
-
-        if (myText != '9999' && myText != '9949' && myText != '9947') {
-          double formattedValue = int.parse(myText) / 100;
-          responseController.text = formattedValue.toStringAsFixed(2);
-        } else {
-          Utils().showSnackBar('Select Another Image', context);
-        }
-      } else {
-        myText = 'Response status: ${response.statusCode}';
-        responseController.text = myText;
-      }
-      debugPrint(response.body);
-    } catch (error) {
-      debugPrint('Error occurred: $error');
-      Utils().showSnackBar('Check Your Internet Connection', context);
-    } finally {
-      scanning = false;
-      notifyListeners();
-    }
-  }
 
   final _myRepo =ApiRepository();
 
@@ -138,33 +90,41 @@ class DataProvider with ChangeNotifier{
     apiResponse = response;
     notifyListeners();
   }
-  final prompt = "Analyze the following image of an electric meter and provide the units_value displayed on it. Do not include the unit (kWh). Only respond with the units_value exactly as it appears on the display.";
+  // final prompt = "Analyze the following image of an electric meter and provide the units_value displayed on it. Do not include the unit (kWh). Only respond with the units_value exactly as it appears on the display.";
 
-  Future<dynamic> getResponse (String imagePath, TextEditingController responseController,) async{
+  Future<dynamic> getResponse (String imagePath, TextEditingController responseController, BuildContext context)  async{
     setResponse(ApiResponse.loading());
-    _myRepo.fetchResponse(prompt, imagePath).then((value){
+    setLoading(true);
+    _myRepo.fetchResponse(imagePath).then((value){
       setResponse(ApiResponse.completed(value));
-      double formattedValue;
-      if (value.contains('.')) {
-        formattedValue = double.parse(value);
-      } else {
-        formattedValue = int.parse(value) / 100;
+      print(value);
+
+      try{
+        double formattedValue;
+        if (value.contains('.')) {
+          formattedValue = double.parse(value);
+        } else {
+          formattedValue = int.parse(value) / 100;
+        }
+        responseController.text = formattedValue.toStringAsFixed(2);
+      } catch(e){
+        Utils().showSnackBar('Please Select Another Image', context);
       }
 
-      // Update the text controller with the formatted value
-      responseController.text = formattedValue.toStringAsFixed(2);
+      setLoading(false);
     }).onError((error, stackTrace){
       setResponse(ApiResponse.error(error.toString()));
+      Utils().showSnackBar(error.toString(), context);
+      setLoading(false);
     });
   }
 
-  Future<void> getPreviousData(imagePath, ) async {
-    await getResponse(imagePath, pResponseController);
-    // await analyzeMeterImage(image, pResponseController, context);
+  Future<void> getPreviousData(imagePath, BuildContext context ) async {
+    await getResponse(imagePath, pResponseController, context);
   }
 
-  Future<void> getCurrentData(image, BuildContext context) async {
-    await analyzeMeterImage(image, cResponseController, context);
+  Future<void> getCurrentData(imagePath, BuildContext context) async {
+    await getResponse(imagePath, cResponseController, context);
   }
 
 

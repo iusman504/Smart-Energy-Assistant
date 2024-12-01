@@ -3,21 +3,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sea/components/details_section.dart';
-import 'package:sea/components/invoice.dart';
 import 'package:sea/constants/custom_appbar.dart';
 import 'package:sea/constants/custom_button.dart';
 import 'package:sea/utils/screen_size.dart';
 import 'package:sea/views/login/login_provider.dart';
 import '../../constants/colors.dart';
+import '../../res/components/details_section.dart';
 import '../../utils/constant.dart';
 import '../../utils/utils.dart';
 
 class ConsumerBill extends StatefulWidget {
-  final Invoice invoice;
   final PageController pageController;
 
-  const ConsumerBill(this.invoice, {super.key, required this.pageController});
+  const ConsumerBill( {super.key, required this.pageController});
 
   @override
   State<ConsumerBill> createState() => _ConsumerBillState();
@@ -52,7 +50,7 @@ class _ConsumerBillState extends State<ConsumerBill> {
               children: [
                 Center(
                   child: Text(
-                    widget.invoice.title,
+                    'Electricity Bill',
                     style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -62,15 +60,15 @@ class _ConsumerBillState extends State<ConsumerBill> {
                 Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color:Colours.kGreenColor, // Slightly transparent background
-                    borderRadius: BorderRadius.circular(10), // Rounded corners
+                    color:Colours.kGreenColor,
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
                     'Note: This is an estimated bill. Annual QTR and FPA are excluded, and there may be slight variations in other taxes.',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14, // Adjust font size
-                      fontWeight: FontWeight.w400, // Regular weight
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
                     ),
                     textAlign: TextAlign.center, // Center align the text
                   ),

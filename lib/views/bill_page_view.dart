@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:sea/components/invoice.dart';
 import 'package:sea/views/Bill/consumer_bill.dart';
 import 'package:sea/views/Bill/current_data_view.dart';
 import 'package:sea/views/Bill/previous_data_view.dart';
@@ -16,9 +14,6 @@ class BillPageView extends StatefulWidget {
 class _BillPageViewState extends State<BillPageView> {
   final PageController _pageController = PageController();
 
-  final Invoice _invoice =  Invoice( 'Electricity Bill',  [
-    InvoiceItem(DateFormat('MMMM').format(DateTime.now()), 20, 160),
-  ]);
 
 
   @override
@@ -31,7 +26,7 @@ class _BillPageViewState extends State<BillPageView> {
           PreviousDataView(pageController: _pageController),
           CurrentDataView(pageController: _pageController,),
           TotalUnits(pageController: _pageController,),
-          ConsumerBill(_invoice, pageController: _pageController,),
+          ConsumerBill( pageController: _pageController,),
         ],
       ),
     );
