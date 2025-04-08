@@ -64,7 +64,7 @@ class _CurrentDataViewState extends State<CurrentDataView>
                         child: Container(
                           alignment: Alignment.center,
                           height: screenHeight(context) * 0.35,
-                          width: screenWidth(context) * 0.75,
+                          width: screenHeight(context) * 0.35,
                           decoration: BoxDecoration(
                             color: vm.pickedImage != null
                                 ? null

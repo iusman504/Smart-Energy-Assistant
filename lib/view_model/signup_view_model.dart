@@ -9,6 +9,14 @@ class SignupProvider with ChangeNotifier {
   TextEditingController phoneNoController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  bool _loading = false;
+  bool get loading =>_loading;
+
+  setLoading(bool value){
+    _loading = value;
+    notifyListeners();
+  }
+
 void clearFields(){
   nameController.clear();
   emailController.clear();
@@ -34,6 +42,7 @@ void clearFields(){
 
   Future<String?> signUp() async {
     try{
+      setLoading(true);
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
@@ -50,8 +59,10 @@ void clearFields(){
       sp.setString('user_id', currentUser.uid);
 
       notifyListeners();
+      setLoading(false);
       return null;
     } on FirebaseException catch (e) {
+      setLoading(false);
       if (e.code == 'invalid-email') {
         return 'The Email Format is Invalid.';
       }

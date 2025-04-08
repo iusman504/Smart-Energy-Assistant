@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       btnHeight: heightX * 0.06,
                       btnWidth: widthX * 0.95,
                       btnText: 'Login',
-
+                      loading: vm.loading,
                       onPress: () async{
                         try {
                           String? validation = loginProvider.validation();

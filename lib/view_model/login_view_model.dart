@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../view/login_view.dart';
 
@@ -36,8 +35,13 @@ class LoginProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  bool _loading = false;
+  bool get loading =>_loading;
+
+  setLoading(bool value){
+    _loading = value;
+    notifyListeners();
+  }
 
   String? validation  (){
     if (emailController.text.isEmpty) {
@@ -51,18 +55,15 @@ class LoginProvider with ChangeNotifier {
 
   Future<String?> login() async {
     try{
-      _isLoading = true;
-      notifyListeners();
+      setLoading(true);
       await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim()).then((_){
-        _isLoading = false;
-        notifyListeners();
 
       }
       );
+      setLoading(false);
       return null;
     } on FirebaseException catch (e) {
-      _isLoading = false;
-      notifyListeners();
+      setLoading(false);
       if (e.code == 'invalid-email') {
 
         return 'The email format is invalid.';
@@ -103,11 +104,8 @@ class LoginProvider with ChangeNotifier {
       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('user').doc(userId).get();
 
       _name = userDoc.get('Name');
-      _isLoading = false;
-      notifyListeners();
     } catch (e) {
 
-      _isLoading = false;
       // Handle errors if needed
       print("Error fetching user details: $e");
     }

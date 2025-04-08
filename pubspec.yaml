@@ -52,7 +52,7 @@ dependencies:
   provider: ^6.1.2
   flutter_spinkit: ^5.2.1
   intl: ^0.19.0
-  printing: ^5.12.0
+  printing: ^5.11.0
   syncfusion_flutter_pdf: ^26.1.38
   pdf: ^3.10.8
   screenshot: ^3.0.0
@@ -71,6 +71,7 @@ dependencies:
   shared_preferences: ^2.2.3
   flutter_gemini: ^2.0.5
   syncfusion_flutter_charts: ^26.2.14
+  google_sign_in: ^6.2.2
 
 dev_dependencies:
   flutter_test:
@@ -81,7 +82,7 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/images/sealogo.jpg"
-  min_sdk_android: 21 # android min sdk min:16, default 21
+  min_sdk_android: 21
   web:
     generate: true
     image_path: "assets/images/sealogo.jpg"

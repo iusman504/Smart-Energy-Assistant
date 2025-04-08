@@ -32,7 +32,7 @@ class _ReadingsState extends State<Readings> {
   void _fetchUserId() {
     final user = FirebaseAuth.instance.currentUser;
     setState(() {
-      userId = user?.uid; // Fetch the UID of the currently logged-in user
+      userId = user?.uid;
     });
   }
 
@@ -70,7 +70,7 @@ class _ReadingsState extends State<Readings> {
                                   sideTitles: SideTitles(
                                     showTitles: true,
                                     reservedSize:
-                                        50, // Add space between left border and titles
+                                        50,
                                     interval: 25,
                                     getTitlesWidget: (value, meta) {
                                       return Text(
@@ -98,8 +98,8 @@ class _ReadingsState extends State<Readings> {
                                     ),
                                   ),
                                   sideTitles: SideTitles(
-                                    showTitles: true,
-                                    interval: 900000, // 15 minutes interval
+                                    //showTitles: true,
+                                    interval: 9000000, // 15 minutes interval
                                     getTitlesWidget: (value, meta) {
                                       DateTime date =
                                           DateTime.fromMillisecondsSinceEpoch(

@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../res/components/notification_services.dart';
@@ -79,6 +80,7 @@ void _checkVoltage() {
     );
   }
 }
+
 
 void updateData() {
   if (showVoltage) {

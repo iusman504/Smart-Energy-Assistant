@@ -38,7 +38,7 @@ class NetworkApiServices extends BaseApiServices {
     };
     dynamic responseJson;
     try {
-      final response = await http.post(Uri.parse(url), headers: header, body: jsonEncode(data)).timeout(const Duration(seconds: 10));
+      final response = await http.post(Uri.parse(url), headers: header, body: jsonEncode(data)).timeout(const Duration(seconds: 30));
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');

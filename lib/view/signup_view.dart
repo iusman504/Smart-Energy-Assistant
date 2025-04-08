@@ -108,6 +108,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CustomButton(
+                      loading: vm.loading,
                         onPress: () async {
                           try {
                             String? validation = vm.validation();

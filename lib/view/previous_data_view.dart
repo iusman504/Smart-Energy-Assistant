@@ -53,7 +53,7 @@ class _PreviousDataViewState extends State<PreviousDataView>
                             child: Container(
                               alignment: Alignment.center,
                               height: screenHeight(context) * 0.35,
-                              width: screenWidth(context) * 0.75,
+                              width: screenHeight(context) * 0.35,
                               decoration: BoxDecoration(
                                 color: vm.pickedImage != null
                                     ? null
@@ -244,8 +244,7 @@ class _PreviousDataViewState extends State<PreviousDataView>
                     ),
                   ),
                 ),
-                if (vm.loading)
-                  Container(
+                if (vm.loading)Container(
                     color: Colors.black.withOpacity(0.5),
                     child: const Center(
                       child: SpinKitThreeBounce(color: Colors.white, size: 20),
