@@ -1,0 +1,2 @@
+D:/Usman/Smart-Energy-Assistant/android/app/.cxx/Debug/6i5t1n5p/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/Usman/Smart-Energy-Assistant/android/app/.cxx/Debug/6i5t1n5p/armeabi-v7a/CMakeFiles/rebuild_cache.dir

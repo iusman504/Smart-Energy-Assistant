@@ -1,0 +1,2 @@
+D:/Usman/Smart-Energy-Assistant/android/app/.cxx/RelWithDebInfo/6u6g5k5i/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/Usman/Smart-Energy-Assistant/android/app/.cxx/RelWithDebInfo/6u6g5k5i/arm64-v8a/CMakeFiles/rebuild_cache.dir
